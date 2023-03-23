@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import decompose, { Decomposition, DecParams } from "../utils/decompose";
+import ResuCard from "./ResuCard";
 
 const Decomposeur = () => {
 	const [resVisible, setResVisible] = useState<boolean>(false);
@@ -72,6 +73,12 @@ const Decomposeur = () => {
 					Go
 				</Button>
 				<Box visibility={resVisible ? "visible" : "hidden"}>
+					<ResuCard
+						nombre1={val_nb1}
+						decomp1={dec1}
+						nombre2={val_nb2}
+						decomp2={dec2}
+					/>
 					<Card
 						className="bg-orange-50"
 						variant="elevation"

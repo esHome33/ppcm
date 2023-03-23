@@ -67,6 +67,9 @@ const euclide = (nb: bigint) => {
 		}
 	}
 
+	if (dec.length === 0) {
+		dec.push(nb.toString() + " (nb premier)");
+	}
 	return dec;
 };
 
