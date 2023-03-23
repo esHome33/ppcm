@@ -2,17 +2,21 @@ import {
 	Box,
 	Button,
 	Card,
+	CardContent,
 	CardHeader,
 	Container,
 	TextField,
+	Typography,
 } from "@mui/material";
-import { ChangeEvent, useState } from "react";
-import decompose, { DecParams } from "../utils/decompose";
+import { useState } from "react";
+import decompose, { Decomposition, DecParams } from "../utils/decompose";
 
 const Decomposeur = () => {
 	const [resVisible, setResVisible] = useState<boolean>(true);
 	const [val_nb1, setVal_nb1] = useState<bigint>(0n);
 	const [val_nb2, setVal_nb2] = useState<bigint>(0n);
+	const [dec1, setdec1] = useState<Decomposition>([]);
+	const [dec2, setdec2] = useState<Decomposition>([]);
 
 	const chg_nb1 = (val: string) => {
 		setVal_nb1(BigInt(val));
@@ -31,6 +35,8 @@ const Decomposeur = () => {
 		};
 
 		let resu = decompose(p);
+		setdec1(resu[0]);
+		setdec2(resu[1]);
 		console.log(resu);
 	};
 
@@ -63,8 +69,29 @@ const Decomposeur = () => {
 					Go
 				</Button>
 				<Box visibility={resVisible ? "visible" : "hidden"}>
-					<Card>
-						<CardHeader>Résultat</CardHeader>
+					<Card
+						className="bg-orange-50"
+						variant="elevation"
+					>
+						<CardHeader
+							className=" text-sm text-teal-700"
+							title={"Résultat :"}
+						/>
+						<CardContent>
+							<Typography>
+								{val_nb1.toString() +
+									" est produit de " +
+									dec1.toString()}
+							</Typography>
+							<Typography>
+								<br></br>
+							</Typography>
+							<Typography>
+								{val_nb2.toString() +
+									" est produit de " +
+									dec2.toString()}
+							</Typography>
+						</CardContent>
 					</Card>
 				</Box>
 			</Container>
