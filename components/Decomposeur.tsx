@@ -12,18 +12,20 @@ import { useState } from "react";
 import decompose, { Decomposition, DecParams } from "../utils/decompose";
 
 const Decomposeur = () => {
-	const [resVisible, setResVisible] = useState<boolean>(true);
+	const [resVisible, setResVisible] = useState<boolean>(false);
 	const [val_nb1, setVal_nb1] = useState<bigint>(0n);
 	const [val_nb2, setVal_nb2] = useState<bigint>(0n);
 	const [dec1, setdec1] = useState<Decomposition>([]);
 	const [dec2, setdec2] = useState<Decomposition>([]);
 
 	const chg_nb1 = (val: string) => {
+		setResVisible(false);
 		setVal_nb1(BigInt(val));
 		console.log("NB 1 changé : " + val_nb1 + " !");
 	};
 
 	const chg_nb2 = (val: string) => {
+		setResVisible(false);
 		setVal_nb2(BigInt(val));
 		console.log("NB 2 changé : " + val_nb2 + " !");
 	};
@@ -35,6 +37,7 @@ const Decomposeur = () => {
 		};
 
 		let resu = decompose(p);
+		setResVisible(true);
 		setdec1(resu[0]);
 		setdec2(resu[1]);
 		console.log(resu);
