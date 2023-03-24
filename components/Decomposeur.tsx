@@ -25,14 +25,14 @@ const Decomposeur = () => {
 		setResVisible(false);
 		setAttenteVisible(false);
 		setVal_nb1(BigInt(val));
-		console.log("NB 1 changé : " + val_nb1 + " !");
+		//console.log("NB 1 changé : " + val_nb1 + " !");
 	};
 
 	const chg_nb2 = (val: string) => {
 		setResVisible(false);
 		setAttenteVisible(false);
 		setVal_nb2(BigInt(val));
-		console.log("NB 2 changé : " + val_nb2 + " !");
+		//console.log("NB 2 changé : " + val_nb2 + " !");
 	};
 
 	const goCalc = () => {
@@ -46,7 +46,7 @@ const Decomposeur = () => {
 		setAttenteVisible(false);
 		setdec1(resu[0]);
 		setdec2(resu[1]);
-		console.log(resu);
+		//console.log(resu);
 	};
 
 	return (
@@ -62,20 +62,20 @@ const Decomposeur = () => {
 								if (e.target.value.length > 14) {
 									toast.error(
 										"La représentation de nombres à plus de 14 chiffres est impossible",
-										{ duration: 3000 }
+										{ duration: 2000 }
 									);
 									return;
 								}
 								if (e.target.value.length > 8) {
 									toast.error(
 										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
-										{ duration: 3000 }
+										{ duration: 2000 }
 									);
 								}
 								try {
 									chg_nb1(e.target.value);
 								} catch (error) {
-									toast.error('Seuls des nombres sont ici autorisés !');
+									toast.error("Seuls des nombres sont autorisés !");
 								}
 							}}
 							variant="outlined"
@@ -91,22 +91,20 @@ const Decomposeur = () => {
 								if (e.target.value.length > 14) {
 									toast.error(
 										"La représentation de nombres à plus de 14 chiffres est impossible",
-										{ duration: 3000 }
+										{ duration: 2000 }
 									);
 									return;
 								}
 								if (e.target.value.length > 8) {
 									toast.error(
 										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
-										{ duration: 3000 }
+										{ duration: 2000 }
 									);
 								}
 								try {
 									chg_nb2(e.target.value);
 								} catch (error) {
-									toast.error(
-										"Seuls des nombres sont ici autorisés !"
-									);
+									toast.error("Seuls des nombres sont autorisés !");
 								}
 							}}
 						/>
