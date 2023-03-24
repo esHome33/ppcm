@@ -34,7 +34,7 @@ const Layout = ({
 			/>
 			<meta
 				name="description"
-				content="Factor your integers as prime products with Euclid's algorithm. 
+				content="Prime Factorization Algorithm. Factor your integers as prime products with Euclid's algorithm. 
 				Factorisez sous forme de produits de nombre premiers vos nombres entiers avec l'algorithme d'Euclide."
 			></meta>
 			<link

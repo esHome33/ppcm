@@ -3,10 +3,11 @@ import React from "react";
 import { Decomposition } from "../utils/decompose";
 
 type Props = {
-	nombre1: bigint;
+	nombre1: bigint | number;
 	decomp1: Decomposition;
-	nombre2: bigint;
+	nombre2: bigint | number;
 	decomp2: Decomposition;
+	duree?: string | undefined;
 };
 
 const ResuCard = (props: Props) => {
@@ -48,6 +49,14 @@ const ResuCard = (props: Props) => {
 				<Typography>
 					{val_nb2.toString()} <br /> {" = " + affiche_decomp(dec2)}
 				</Typography>
+				<br />
+				{
+					(props.duree) ?
+					<Typography variant="body2">
+					Trouvé en {props.duree}.
+						</Typography>
+						: null
+				}
 			</CardContent>
 		</Card>
 	);

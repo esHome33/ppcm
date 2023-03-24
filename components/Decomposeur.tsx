@@ -7,38 +7,61 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import decompose, { Decomposition, DecParams } from "../utils/decompose";
+import { Data } from "../pages/api/eratos";
+import { Decomposition } from "../utils/decompose";
 import ResuCard from "./ResuCard";
 
 const Decomposeur = () => {
 	const [resVisible, setResVisible] = useState<boolean>(false);
 	const [attenteVisible, setAttenteVisible] = useState<boolean>(false);
-	const [val_nb1, setVal_nb1] = useState<bigint>(0n);
-	const [val_nb2, setVal_nb2] = useState<bigint>(0n);
+	const [btnDisabled, setbtnDisable] = useState<boolean>(false);
+	const [val_nb1, setVal_nb1] = useState<number>(0);
+	const [val_nb2, setVal_nb2] = useState<number>(0);
+	const [duree_calcul, setDuree_calcul] = useState<string | undefined>(undefined);
+
 	const [dec1, setdec1] = useState<Decomposition>([]);
 	const [dec2, setdec2] = useState<Decomposition>([]);
-	let timerValue: number = 0;
 
 	const chg_nb1 = (val: string) => {
 		setResVisible(false);
 		setAttenteVisible(false);
-		setVal_nb1(BigInt(val));
+		setVal_nb1(Number(val));
 		//console.log("NB 1 changé : " + val_nb1 + " !");
 	};
 
 	const chg_nb2 = (val: string) => {
 		setResVisible(false);
 		setAttenteVisible(false);
-		setVal_nb2(BigInt(val));
+		setVal_nb2(Number(val));
 		//console.log("NB 2 changé : " + val_nb2 + " !");
 	};
 
-	const goCalc = () => {
+	const formateMS = (millis: number) => {
+		if (millis < 1100) {
+			return millis + " ms";
+		} else if (millis < 60000) {
+			const m_in_sec = millis / 1000;
+			const m_s_arrondi = m_in_sec.toFixed(1);
+			return m_s_arrondi + " s";
+		} else if (millis < 3600000) {
+			const mn = millis / 60000;
+			const ss = (millis - Math.floor(mn)*60000) / 1000
+			return mn.toFixed(0) + " mn " + ss.toFixed(0) + " s";
+		} else {
+			const hh = millis / 3600000;
+			const mn = (millis - Math.floor(hh) * 3600000) / 60000;
+			const ss = (millis - Math.floor(mn) * 60000 - Math.floor(hh) * 3600000) / 1000;
+			return hh.toFixed(0) + " h " + mn.toFixed(0) + " mn " + ss.toFixed(0) + " s";
+		}
+	}
+
+	/*const goCalc = () => {
 		let p: DecParams = {
-			nb1: val_nb1,
-			nb2: val_nb2,
+			nb1: BigInt(val_nb1),
+			nb2: BigInt(val_nb2),
 		};
 		setAttenteVisible(true);
 		let resu = decompose(p);
@@ -47,6 +70,40 @@ const Decomposeur = () => {
 		setdec1(resu[0]);
 		setdec2(resu[1]);
 		//console.log(resu);
+	};*/
+
+	const goCalc2 = () => {
+		setAttenteVisible(true);
+		setResVisible(false);
+		setbtnDisable(true);
+		const t_depart = new Date();
+		axios
+			.post<Data>("api/eratos", {
+				n1: JSON.stringify(val_nb1),
+				n2: JSON.stringify(val_nb2),
+			})
+			.then((response) => {
+				const d1 = response.data.dec_n1;
+				const d2 = response.data.dec_n2;
+				const t_arrivee = new Date();
+				const diff =  t_arrivee.getTime() - t_depart.getTime();
+				setDuree_calcul(formateMS(diff));
+				setAttenteVisible(false);
+				setResVisible(true);
+				setbtnDisable(false);
+				setdec1(d1);
+				setdec2(d2);
+			})
+			.catch((err) => {
+				if (axios.isAxiosError(err)) {
+					setdec1(["Erreur AXIOS : " + err.message]);
+				} else {
+					setdec1(["Erreur au niveau du serveur !"]);
+				}
+				setAttenteVisible(false);
+				setResVisible(true);
+				setbtnDisable(false);
+			});
 	};
 
 	return (
@@ -114,8 +171,9 @@ const Decomposeur = () => {
 							variant="contained"
 							className="text-white bg-slate-500"
 							fullWidth
+							disabled={btnDisabled}
 							onClick={() => {
-								goCalc();
+								goCalc2();
 							}}
 						>
 							Go
@@ -125,7 +183,7 @@ const Decomposeur = () => {
 						<ListItem>
 							<CircularProgress className="mr-4" />
 							<Typography variant="body2">
-								Calcul en cours {" (" + timerValue + "%)"}
+								Calcul en cours ...
 							</Typography>
 						</ListItem>
 					) : null}
@@ -137,6 +195,7 @@ const Decomposeur = () => {
 								decomp1={dec1}
 								nombre2={val_nb2}
 								decomp2={dec2}
+								duree = {duree_calcul}
 							/>
 						</ListItem>
 					) : null}
