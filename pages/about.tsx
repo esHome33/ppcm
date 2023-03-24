@@ -25,8 +25,8 @@ const About = (_props: Props) => {
 				variant="body1"
 				className="mt-4 text-justify"
 			>
-				Les nombres peuvent être très grands car c'est le type{" "}
-				<code className="text-blue-800 font-black">bigint</code> qui est
+				Les nombres sont limités à 15 chiffres car c'est le type{" "}
+				<code className="text-blue-800 font-black">number</code> qui est
 				utilisé.
 			</Typography>
 			<br />
