@@ -96,8 +96,14 @@ const Decomposeur = () => {
 			})
 			.catch((err) => {
 				if (axios.isAxiosError(err)) {
-					setdec1([err.name , err.message, ""+err.status]);
-					setdec2(["Erreur AXIOS"]);
+					const msg = err.message;
+					if (msg.includes('504')) {
+						setdec1(["Le temps de calcul max est dépassé (10s)"]);
+						setdec2(["Le service est gratuit"]);
+					} else {
+						setdec1([err.name,err.message]);
+						setdec2([""]);
+					}
 				} else {
 					setdec1(["Erreur au niveau du serveur !"]);
 				}
