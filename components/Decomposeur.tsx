@@ -11,16 +11,22 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Data } from "../pages/api/eratos";
-import { Decomposition } from "../utils/decompose";
+import decompose, { Decomposition, DecParams } from "../utils/decompose";
 import ResuCard from "./ResuCard";
 
-const Decomposeur = () => {
+type Props = {
+	action: boolean;
+};
+
+const Decomposeur = (props: Props) => {
 	const [resVisible, setResVisible] = useState<boolean>(false);
 	const [attenteVisible, setAttenteVisible] = useState<boolean>(false);
 	const [btnDisabled, setbtnDisable] = useState<boolean>(false);
 	const [val_nb1, setVal_nb1] = useState<bigint>(0n);
 	const [val_nb2, setVal_nb2] = useState<bigint>(0n);
-	const [duree_calcul, setDuree_calcul] = useState<string | undefined>(undefined);
+	const [duree_calcul, setDuree_calcul] = useState<string | undefined>(
+		undefined
+	);
 
 	const [dec1, setdec1] = useState<Decomposition>([]);
 	const [dec2, setdec2] = useState<Decomposition>([]);
@@ -29,6 +35,7 @@ const Decomposeur = () => {
 		setResVisible(false);
 		setAttenteVisible(false);
 		setVal_nb1(BigInt(val));
+		setDuree_calcul(undefined);
 		//console.log("NB 1 changé : " + val_nb1 + " !");
 	};
 
@@ -36,6 +43,7 @@ const Decomposeur = () => {
 		setResVisible(false);
 		setAttenteVisible(false);
 		setVal_nb2(BigInt(val));
+		setDuree_calcul(undefined);
 		//console.log("NB 2 changé : " + val_nb2 + " !");
 	};
 
@@ -48,29 +56,63 @@ const Decomposeur = () => {
 			return m_s_arrondi + " s";
 		} else if (millis < 3600000) {
 			const mn = millis / 60000;
-			const ss = (millis - Math.floor(mn)*60000) / 1000
+			const ss = (millis - Math.floor(mn) * 60000) / 1000;
 			return mn.toFixed(0) + " mn " + ss.toFixed(0) + " s";
 		} else {
 			const hh = millis / 3600000;
 			const mn = (millis - Math.floor(hh) * 3600000) / 60000;
-			const ss = (millis - Math.floor(mn) * 60000 - Math.floor(hh) * 3600000) / 1000;
-			return hh.toFixed(0) + " h " + mn.toFixed(0) + " mn " + ss.toFixed(0) + " s";
+			const ss =
+				(millis - Math.floor(mn) * 60000 - Math.floor(hh) * 3600000) / 1000;
+			return (
+				hh.toFixed(0) +
+				" h " +
+				mn.toFixed(0) +
+				" mn " +
+				ss.toFixed(0) +
+				" s"
+			);
 		}
-	}
+	};
 
-	/*const goCalc = () => {
+	const goCalc = () => {
 		let p: DecParams = {
 			nb1: BigInt(val_nb1),
 			nb2: BigInt(val_nb2),
 		};
+		setbtnDisable(true);
 		setAttenteVisible(true);
-		let resu = decompose(p);
-		setResVisible(true);
-		setAttenteVisible(false);
-		setdec1(resu[0]);
-		setdec2(resu[1]);
-		//console.log(resu);
-	};*/
+		setResVisible(false);
+		const DD = new Date();
+		const prom = new Promise<Decomposition[]>((resolve, reject) => {
+			try {
+				let resu = decompose(p);
+				resolve(resu);
+			} catch (error) {
+				reject(error);
+			}
+		});
+		prom
+			.then((res) => {
+				setdec1(res[0]);
+				setdec2(res[1]);
+				const DA = new Date();
+				const ecart = DA.getTime() - DD.getTime();
+				setDuree_calcul(formateMS(ecart));
+				setAttenteVisible(false);
+				setResVisible(true);
+				setbtnDisable(false);
+			})
+			.catch((err) => {
+				setdec1(["Erreur calcul", JSON.stringify(err)]);
+				setdec2(["//"]);
+				const DA = new Date();
+				const ecart = DA.getTime() - DD.getTime();
+				setDuree_calcul(formateMS(ecart));
+				setAttenteVisible(false);
+				setResVisible(true);
+				setbtnDisable(false);
+			});
+	};
 
 	const goCalc2 = () => {
 		setAttenteVisible(true);
@@ -86,7 +128,7 @@ const Decomposeur = () => {
 				const d1 = response.data.dec_n1;
 				const d2 = response.data.dec_n2;
 				const t_arrivee = new Date();
-				const diff =  t_arrivee.getTime() - t_depart.getTime();
+				const diff = t_arrivee.getTime() - t_depart.getTime();
 				setDuree_calcul(formateMS(diff));
 				setAttenteVisible(false);
 				setResVisible(true);
@@ -97,11 +139,11 @@ const Decomposeur = () => {
 			.catch((err) => {
 				if (axios.isAxiosError(err)) {
 					const msg = err.message;
-					if (msg.includes('504')) {
+					if (msg.includes("504")) {
 						setdec1(["Le temps de calcul max est dépassé (10s)"]);
 						setdec2(["Le service est gratuit"]);
 					} else {
-						setdec1([err.name,err.message]);
+						setdec1([err.name, err.message]);
 						setdec2([""]);
 					}
 				} else {
@@ -180,10 +222,14 @@ const Decomposeur = () => {
 							fullWidth
 							disabled={btnDisabled}
 							onClick={() => {
-								goCalc2();
+								if (props.action) {
+									goCalc2();
+								} else {
+									goCalc();
+								}
 							}}
 						>
-							Go
+							{props.action ? "Go (serveur)" : "Go (en local)"}
 						</Button>
 					</ListItem>
 					{attenteVisible ? (
@@ -202,7 +248,7 @@ const Decomposeur = () => {
 								decomp1={dec1}
 								nombre2={val_nb2}
 								decomp2={dec2}
-								duree = {duree_calcul}
+								duree={duree_calcul}
 							/>
 						</ListItem>
 					) : null}
