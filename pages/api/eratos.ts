@@ -40,8 +40,8 @@ export default function eratos(
 		}
 
 		const p: DecParams = {
-			nb1: BigInt(n1),
-			nb2: BigInt(n2),
+			nb1: n1,
+			nb2: n2,
 		};
 		const resultat_dec = decompose(p);
 		const OKData: Data = {

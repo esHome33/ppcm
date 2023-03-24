@@ -158,8 +158,8 @@ const euclide = (nb: bigint) => {
 }; 
 
 const decompose = (params: DecParams) => {
-	const resu1: Decomposition = euclide(BigInt(params.nb1));
-	const resu2: Decomposition = euclide(BigInt(params.nb2));
+	const resu1: Decomposition = euclide((params.nb1));
+	const resu2: Decomposition = euclide((params.nb2));
 	const resu: Decomposition[] = [];
 	resu.push(resu1);
 	resu.push(resu2);

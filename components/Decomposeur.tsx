@@ -96,7 +96,7 @@ const Decomposeur = () => {
 			})
 			.catch((err) => {
 				if (axios.isAxiosError(err)) {
-					setdec1(["" + err.toJSON()]);
+					setdec1([JSON.stringify(err)]);
 					setdec2(["Erreur AXIOS"]);
 				} else {
 					setdec1(["Erreur au niveau du serveur !"]);
