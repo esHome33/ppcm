@@ -12,7 +12,7 @@ export type Decomposition = string[];
  * le type number devient imprécis pour les entiers)
  * @author Etienne SCHWARTZ
  */
-const euclide2 = (nb: number) => {
+/* const euclide2 = (nb: number) => {
 	let dec: Decomposition = [];
 	const moitie = nb / 2;
 	let div = nb;
@@ -82,9 +82,9 @@ const euclide2 = (nb: number) => {
 		}
 	}
 	return dec;
-};
+};*/
 
-/*
+
 const euclide = (nb: bigint) => {
 	let dec: Decomposition = [];
 	const moitie = nb / 2n;
@@ -148,14 +148,18 @@ const euclide = (nb: bigint) => {
 	}
 
 	if (dec.length === 0) {
-		dec.push(nb.toString() + " (nb premier)");
+		if (nb === 0n) {
+			dec.push(nb.toString());
+		} else {
+			dec.push(nb.toString() + " (nb premier)");
+		}
 	}
 	return dec;
-}; */
+}; 
 
 const decompose = (params: DecParams) => {
-	const resu1: Decomposition = euclide2(Number(params.nb1));
-	const resu2: Decomposition = euclide2(Number(params.nb2));
+	const resu1: Decomposition = euclide(BigInt(params.nb1));
+	const resu2: Decomposition = euclide(BigInt(params.nb2));
 	const resu: Decomposition[] = [];
 	resu.push(resu1);
 	resu.push(resu2);

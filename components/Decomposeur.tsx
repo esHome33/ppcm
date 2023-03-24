@@ -18,8 +18,8 @@ const Decomposeur = () => {
 	const [resVisible, setResVisible] = useState<boolean>(false);
 	const [attenteVisible, setAttenteVisible] = useState<boolean>(false);
 	const [btnDisabled, setbtnDisable] = useState<boolean>(false);
-	const [val_nb1, setVal_nb1] = useState<number>(0);
-	const [val_nb2, setVal_nb2] = useState<number>(0);
+	const [val_nb1, setVal_nb1] = useState<bigint>(0n);
+	const [val_nb2, setVal_nb2] = useState<bigint>(0n);
 	const [duree_calcul, setDuree_calcul] = useState<string | undefined>(undefined);
 
 	const [dec1, setdec1] = useState<Decomposition>([]);
@@ -28,14 +28,14 @@ const Decomposeur = () => {
 	const chg_nb1 = (val: string) => {
 		setResVisible(false);
 		setAttenteVisible(false);
-		setVal_nb1(Number(val));
+		setVal_nb1(BigInt(val));
 		//console.log("NB 1 changé : " + val_nb1 + " !");
 	};
 
 	const chg_nb2 = (val: string) => {
 		setResVisible(false);
 		setAttenteVisible(false);
-		setVal_nb2(Number(val));
+		setVal_nb2(BigInt(val));
 		//console.log("NB 2 changé : " + val_nb2 + " !");
 	};
 
@@ -96,7 +96,8 @@ const Decomposeur = () => {
 			})
 			.catch((err) => {
 				if (axios.isAxiosError(err)) {
-					setdec1(["Erreur AXIOS : " + err.message]);
+					setdec1(["" + err.toJSON()]);
+					setdec2(["Erreur AXIOS"]);
 				} else {
 					setdec1(["Erreur au niveau du serveur !"]);
 				}
