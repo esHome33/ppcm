@@ -35,7 +35,7 @@ const About = (_props: Props) => {
 				className="mt-4 text-justify"
 			>
 				Mais il y a un inconvénient majeur : comme l'algorithme utilisé pour
-				trouver les facteurs premiers est l'algorithme du
+				trouver les facteurs premiers est l'algorithme du{" "}
 				<span className="text-blue-800 font-bold">
 					crible d'Eratosthène
 				</span>
@@ -54,11 +54,18 @@ const About = (_props: Props) => {
 			</Typography>
 			<br />
 			<hr />
+			<br />
 			<Typography
 				variant="body1"
 				className="mt-4 text-blue-800 font-mono"
 			>
-				Programmé par Etienne en mars 2023
+				Programmé par Etienne en mars 2023 avec le framework{" "}
+				<a
+					href={"https://nextjs.org/"}
+					className="text-red-700"
+				>
+					NextJS
+				</a>
 			</Typography>
 		</Layout>
 	);

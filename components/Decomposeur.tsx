@@ -8,6 +8,7 @@ import {
 	Typography,
 } from "@mui/material";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import decompose, { Decomposition, DecParams } from "../utils/decompose";
 import ResuCard from "./ResuCard";
 
@@ -58,7 +59,24 @@ const Decomposeur = () => {
 							label="nombre 1"
 							fullWidth
 							onChange={(e) => {
-								chg_nb1(e.target.value);
+								if (e.target.value.length > 14) {
+									toast.error(
+										"La représentation de nombres à plus de 14 chiffres est impossible",
+										{ duration: 3000 }
+									);
+									return;
+								}
+								if (e.target.value.length > 8) {
+									toast.error(
+										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
+										{ duration: 3000 }
+									);
+								}
+								try {
+									chg_nb1(e.target.value);
+								} catch (error) {
+									toast.error('Seuls des nombres sont ici autorisés !');
+								}
 							}}
 							variant="outlined"
 						/>
@@ -70,7 +88,26 @@ const Decomposeur = () => {
 							variant="outlined"
 							fullWidth
 							onChange={(e) => {
-								chg_nb2(e.target.value);
+								if (e.target.value.length > 14) {
+									toast.error(
+										"La représentation de nombres à plus de 14 chiffres est impossible",
+										{ duration: 3000 }
+									);
+									return;
+								}
+								if (e.target.value.length > 8) {
+									toast.error(
+										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
+										{ duration: 3000 }
+									);
+								}
+								try {
+									chg_nb2(e.target.value);
+								} catch (error) {
+									toast.error(
+										"Seuls des nombres sont ici autorisés !"
+									);
+								}
 							}}
 						/>
 					</ListItem>
