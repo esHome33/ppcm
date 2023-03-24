@@ -30,22 +30,23 @@ const ResuCard = (props: Props) => {
 
 	return (
 		<Card
-			className="bg-orange-50"
-			variant="elevation"
+			className="bg-orange-50 w-full"
+			variant="outlined"
+			sx={{ width: "100%", borderWidth: "3px" }}
 		>
 			<CardHeader
-				className=" text-sm text-teal-700"
+				className="bg-orange-200 text-teal-800 italic"
 				title={"Résultat :"}
 			/>
 			<CardContent>
-				<Typography>
-					{val_nb1.toString() + " = " + affiche_decomp(dec1)}
+				<Typography width={"100%"}>
+					{val_nb1.toString()} <br /> {" = " + affiche_decomp(dec1)}
 				</Typography>
 				<Typography>
 					<br></br>
 				</Typography>
 				<Typography>
-					{val_nb2.toString() + " = " + affiche_decomp(dec2)}
+					{val_nb2.toString()} <br /> {" = " + affiche_decomp(dec2)}
 				</Typography>
 			</CardContent>
 		</Card>

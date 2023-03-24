@@ -10,6 +10,9 @@ const About = (_props: Props) => {
 			about_invisible
 		>
 			<Typography variant="h6">A propos de cette belle appli ! </Typography>
+			<br />
+			<hr />
+			<br />
 			<Typography
 				variant="body1"
 				className="mt-4 text-justify"
@@ -17,6 +20,7 @@ const About = (_props: Props) => {
 				Cette application permet de décomposer un ou deux nombres en produit
 				de facteurs premiers.
 			</Typography>
+			<br />
 			<Typography
 				variant="body1"
 				className="mt-4 text-justify"
@@ -25,16 +29,21 @@ const About = (_props: Props) => {
 				<code className="text-blue-800 font-black">bigint</code> qui est
 				utilisé.
 			</Typography>
+			<br />
 			<Typography
 				variant="body1"
 				className="mt-4 text-justify"
 			>
 				Mais il y a un inconvénient majeur : comme l'algorithme utilisé pour
-				trouver les facteurs premiers est l'algorithme d'
-				<span className="text-blue-800 font-bold">Euclide</span>, le temps
-				mis pour décomposer des nombres comportant plus de 15 chiffres peut
-				être excessivement long.
+				trouver les facteurs premiers est l'algorithme du
+				<span className="text-blue-800 font-bold">
+					crible d'Eratosthène
+				</span>
+				, le temps mis pour décomposer des nombres comportant plus de 9
+				chiffres est excessivement long (les ressources en calcul de mon
+				serveur ne sont pas terribles).
 			</Typography>
+			<br />
 			<Typography
 				variant="body1"
 				className="mt-4 text-justify"
@@ -43,7 +52,8 @@ const About = (_props: Props) => {
 				opération trop longue à finir (utilisation des <code>promise</code>{" "}
 				de JavaScript en programmation asynchrone )!
 			</Typography>
-
+			<br />
+			<hr />
 			<Typography
 				variant="body1"
 				className="mt-4 text-blue-800 font-mono"
