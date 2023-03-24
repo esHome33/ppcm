@@ -79,8 +79,8 @@ const Decomposeur = () => {
 		const t_depart = new Date();
 		axios
 			.post<Data>("api/eratos", {
-				n1: JSON.stringify(val_nb1),
-				n2: JSON.stringify(val_nb2),
+				n1: val_nb1.toString(),
+				n2: val_nb2.toString(),
 			})
 			.then((response) => {
 				const d1 = response.data.dec_n1;
