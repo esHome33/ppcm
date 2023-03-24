@@ -66,6 +66,7 @@ const About = (_props: Props) => {
 					NextJS
 				</a>
 			</Typography>
+			<div className="mb-14"/>
 		</Layout>
 	);
 };

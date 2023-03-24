@@ -7,15 +7,23 @@ import { Toaster } from 'react-hot-toast'
 
 const IndexPage: NextPage = () => {
   return (
-    <Layout title="Facteurs premiers" home_invisible>
-      <Toaster />
-      <Typography variant='h6'
-        className='text-center font-bold text-teal-800'
-      > ♻️ ♻️ Décomposition en facteurs premiers 👋</Typography>
-    
-      <Decomposeur />
-    </Layout>
-  )
+		<Layout
+			title="Facteurs premiers"
+			home_invisible
+		>
+			<Toaster />
+			<Typography
+				variant="h6"
+				className="text-center font-bold text-teal-800"
+			>
+				{" "}
+				♻️ ♻️ Décomposition en facteurs premiers 👋
+			</Typography>
+
+			<Decomposeur />
+			<div className="mb-14" />
+		</Layout>
+  );
 }
 
 export default IndexPage
