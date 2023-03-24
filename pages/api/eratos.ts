@@ -25,6 +25,7 @@ export default function eratos(
 		let n1: bigint = 0n;
 		let n2: bigint = 0n;
 		try {
+			console.log( "Nombre 1 = " + req.body.n1);
 			n1 = BigInt(req.body.n1);
 		} catch (error) {
 			errorData.dec_n1 = ["Erreur lors conversion nombre 1"];
@@ -32,6 +33,7 @@ export default function eratos(
 			return;
 		}
 		try {
+			console.log("Nombre 1 = " + req.body.n1);
 			n2 = BigInt(req.body.n2);
 		} catch (error) {
 			errorData.dec_n2 = ["Erreur lors conversion nombre 2"];
@@ -39,11 +41,18 @@ export default function eratos(
 			return;
 		}
 
+		console.log("transfo de N1 et N2 en BigInt réussie");
 		const p: DecParams = {
 			nb1: n1,
 			nb2: n2,
 		};
-		const resultat_dec = decompose(p);
+		let resultat_dec: Decomposition[] = [['dummy1'],['dummy2']];
+		try {
+			resultat_dec = decompose(p);
+			
+		} catch (error) {
+			resultat_dec = [["catch1"], ["catch2"]];
+		}
 		const OKData: Data = {
 			n1: n1,
 			n2: n2,
