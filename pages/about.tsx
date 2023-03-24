@@ -40,8 +40,7 @@ const About = (_props: Props) => {
 					crible d'Eratosthène
 				</span>
 				, le temps mis pour décomposer des nombres comportant plus de 9
-				chiffres est excessivement long (les ressources en calcul de mon
-				serveur ne sont pas terribles).
+				chiffres devient excessivement long (pour information, le JavaScript tourne sur votre machine !!).
 			</Typography>
 			<br />
 			<Typography
