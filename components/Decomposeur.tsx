@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { render } from "react-dom";
 import toast from "react-hot-toast";
 import { Data } from "../pages/api/eratos";
 import decompose, { Decomposition, DecParams } from "../utils/decompose";
