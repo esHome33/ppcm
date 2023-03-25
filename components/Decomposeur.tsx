@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import { render } from "react-dom";
 import toast from "react-hot-toast";
 import { Data } from "../pages/api/eratos";
 import decompose, { Decomposition, DecParams } from "../utils/decompose";
@@ -74,15 +75,14 @@ const Decomposeur = (props: Props) => {
 		}
 	};
 
-	const goCalc = () => {
+	let DD: Date;
+
+	const decomposer = () => {
 		let p: DecParams = {
 			nb1: BigInt(val_nb1),
 			nb2: BigInt(val_nb2),
 		};
-		setbtnDisable(true);
-		setAttenteVisible(true);
-		setResVisible(false);
-		const DD = new Date();
+		
 		const prom = new Promise<Decomposition[]>((resolve, reject) => {
 			try {
 				let resu = decompose(p);
@@ -112,6 +112,16 @@ const Decomposeur = (props: Props) => {
 				setResVisible(true);
 				setbtnDisable(false);
 			});
+	};
+
+	const goCalc = () => {
+		setbtnDisable(true);
+		setAttenteVisible(true);
+		setResVisible(false);
+		DD = new Date();
+		setTimeout(() => {
+			decomposer();
+		}, 300);
 	};
 
 	const goCalc2 = () => {

@@ -29,9 +29,7 @@ const IndexPage: NextPage = () => {
 						setLocal(!local);
 					}}
 				/>
-				<Typography>
-					on est sur le serveur : {local?'vrai':'faux'}
-				</Typography>
+				
 			</Box>
 			<Decomposeur action={local} />
 			<div className="mb-14" />

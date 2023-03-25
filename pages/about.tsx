@@ -18,7 +18,7 @@ const About = (_props: Props) => {
 				className="text-justify"
 			>
 				Cette application permet de décomposer un et/ou deux nombres en
-				produits de facteurs premiers.
+				produits de facteurs premiers. Elle est codée en TypeScript (JavaScript typé).
 			</Typography>
 			<br />
 			<Typography
@@ -32,9 +32,12 @@ const About = (_props: Props) => {
 				variant="body1"
 				className="text-justify"
 			>
-				Les nombres sont limités à 15 chiffres car c'est le type{" "}
-				<code className="text-blue-800 font-black">number</code> qui est
-				utilisé.
+				Les nombres à décomposer peuvent être de taille illimitée : au début
+				j'utilisais le type{" "}
+				<code className="text-blue-800 font-black">number</code> (limite de
+				15 chiffres max). Je suis passé au type{" "}
+				<code className="text-blue-800 font-black">BigInt</code> qui n'est
+				plus limité !!
 			</Typography>
 			<br />
 			<Typography
@@ -55,13 +58,14 @@ const About = (_props: Props) => {
 				variant="body1"
 				className="text-justify"
 			>
-				Avant, j'avais intégré le code de l'algorithme d'Eratosthène au
-				niveau du client (votre ordi, tablette ou téléphone !) ... ce
-				n'était pas vraiment le top. Le code est maintenant exécuté sur le
-				serveur qui devrait avoir de meilleures perfos que votre machine !
-				Pour améliorer encore la vitesse, il faut arriver à comprendre
-				l'algorithme de Pollard-Strassen (Pomerance 1982; Hardy et al.
-				1990)...
+				Le code de l'algorithme d'Eratosthène peut être exécuté au niveau du
+				client (votre ordi, tablette ou téléphone !) ou alors sur le serveur
+				qui sert cette page web. Malheureusement, le service web étant
+				gratuit, le serveur limite à 10 secondes le temps d'exécution des
+				fonctions ... cela empêche la décomposition des nombres de plus de 8
+				chiffres. Pour améliorer encore la vitesse, il faut arriver à
+				comprendre l'algorithme de Pollard-Strassen (Pomerance 1982; Hardy
+				et al. 1990) ... et l'implémenter.
 			</Typography>
 			<br />
 			<hr />
