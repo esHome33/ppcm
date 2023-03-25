@@ -81,7 +81,7 @@ const Decomposeur = (props: Props) => {
 			nb1: BigInt(val_nb1),
 			nb2: BigInt(val_nb2),
 		};
-		
+
 		const prom = new Promise<Decomposition[]>((resolve, reject) => {
 			try {
 				let resu = decompose(p);
@@ -177,20 +177,22 @@ const Decomposeur = (props: Props) => {
 								if (e.target.value.length > 14) {
 									toast.error(
 										"La représentation de nombres à plus de 14 chiffres est impossible",
-										{ duration: 2000 }
+										{ duration: 1300 }
 									);
 									return;
 								}
 								if (e.target.value.length > 8) {
 									toast.error(
 										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
-										{ duration: 2000 }
+										{ duration: 1300 }
 									);
 								}
 								try {
 									chg_nb1(e.target.value);
 								} catch (error) {
-									toast.error("Seuls des nombres sont autorisés !");
+									toast.error("Seuls des nombres sont autorisés !", {
+										duration: 1300,
+									});
 								}
 							}}
 							variant="outlined"
@@ -206,20 +208,22 @@ const Decomposeur = (props: Props) => {
 								if (e.target.value.length > 14) {
 									toast.error(
 										"La représentation de nombres à plus de 14 chiffres est impossible",
-										{ duration: 2000 }
+										{ duration: 1300 }
 									);
 									return;
 								}
 								if (e.target.value.length > 8) {
 									toast.error(
 										"La décomposition de nombres à plus de 9 chiffres est excessivement longue !",
-										{ duration: 2000 }
+										{ duration: 1300 }
 									);
 								}
 								try {
 									chg_nb2(e.target.value);
 								} catch (error) {
-									toast.error("Seuls des nombres sont autorisés !");
+									toast.error("Seuls des nombres sont autorisés !", {
+										duration: 1300,
+									});
 								}
 							}}
 						/>
@@ -242,7 +246,7 @@ const Decomposeur = (props: Props) => {
 						</Button>
 					</ListItem>
 					{attenteVisible ? (
-						<ListItem>
+						<ListItem className="mx-auto">
 							<CircularProgress className="mr-4" />
 							<Typography variant="body2">
 								Calcul en cours ...
