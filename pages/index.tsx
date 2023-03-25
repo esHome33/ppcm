@@ -7,6 +7,10 @@ import { useState } from "react";
 
 const IndexPage: NextPage = () => {
 	const [local, setLocal] = useState<boolean>(true);
+	const txt_serveur = "exécuter sur le serveur";
+	const txt_local = "exécuter en local";
+	const [texteLieu, setTexteLieu] = useState<string>(txt_serveur);
+
 	return (
 		<Layout
 			title="Facteurs premiers"
@@ -21,15 +25,19 @@ const IndexPage: NextPage = () => {
 				♻️ ♻️ Décomposition en facteurs premiers 👋
 			</Typography>
 			<br />
-			<Box textAlign={'center'}>
+			<Box textAlign={"center"}>
 				<FormControlLabel
 					control={<Switch defaultChecked />}
-					label="exécuter sur le serveur"
+					label={texteLieu}
 					onChange={() => {
+						if (local) {
+							setTexteLieu(txt_local);
+						} else {
+							setTexteLieu(txt_serveur);
+						}
 						setLocal(!local);
 					}}
 				/>
-				
 			</Box>
 			<Decomposeur action={local} />
 			<div className="mb-14" />
