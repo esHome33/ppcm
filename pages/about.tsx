@@ -36,8 +36,8 @@ const About = (_props: Props) => {
 				Les nombres à décomposer peuvent être de taille illimitée : au début
 				j'utilisais le type{" "}
 				<code className="text-blue-800 font-black">number</code> (limite de
-				15 chiffres max). Je suis passé au type{" "}
-				<code className="text-blue-800 font-black">BigInt</code> qui n'est
+				15 chiffres max) et j'utilise maintenant le type{" "}
+				<code className="text-blue-800 font-black">BigInt</code>, qui n'est
 				plus limité !!
 			</Typography>
 			<br />
@@ -50,12 +50,13 @@ const About = (_props: Props) => {
 				<span className="text-blue-800 font-bold">
 					crible d'Eratosthène
 				</span>
-				, le temps mis pour décomposer des nombres comportant plus de 9
-				chiffres devient excessivement long. Vous pouvez choisir d'exécuter
-				cet algorithm au niveau du client (votre ordi, tablette ou téléphone
-				!) ou alors sur le serveur qui sert cette page web. Attention, le
-				serveur web étant gratuit, il ne calcule que durant 10 secondes max
-				: cela empêche la décomposition des nombres de plus de 13 chiffres.
+				, le temps mis pour décomposer des nombres comportant plus de 17
+				chiffres devient excessivement long (sur mon PC). Vous pouvez
+				choisir d'exécuter cet algorithm au niveau du client (votre ordi,
+				tablette ou téléphone !) ou alors sur le serveur qui sert cette page
+				web. Attention, le serveur web étant gratuit, il ne calcule que
+				durant 10 secondes max : cela empêche la décomposition des nombres
+				de plus de 15 chiffres.
 			</Typography>
 			<br />
 			<Typography
