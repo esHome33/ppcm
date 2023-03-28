@@ -32,15 +32,20 @@ export const GetBigintFromString: (str: string[] | null) => bigint[] = (
 	if (!str) {
 		return [];
 	}
-	if (str.length === 0) {
+	if (0 === str.length) {
 		return [];
 	}
 	const nb_premiers: bigint[] = [];
 	for (let pp of str) {
 		pp = pp.replace(" (nb premier)", "");
-		const tmp = BigInt(pp);
-		if (!nb_premiers.includes(tmp) && tmp !== 0n) {
-			nb_premiers.push(tmp);
+		let tmp: bigint;
+		try {
+			tmp = BigInt(pp);
+			if (!nb_premiers.includes(tmp) && tmp !== 0n) {
+				nb_premiers.push(tmp);
+			}
+		} catch (error) {
+			throw new Error(pp);
 		}
 	}
 	nb_premiers.sort((a, b) => Number(a - b));
@@ -71,7 +76,14 @@ export const analyse_decomposition: (dec: Decomposition) => ResuDecomp = (
 		coeffs_prems: [],
 	};
 	// on passe la décomposition par ces deux fonctions (deux boucles inutiles!!) pour oter les doublons...
-	const liste = GetStringFromBigint(GetBigintFromString(dec));
+	let liste: string[] | null = [];
+	try {
+		liste = GetStringFromBigint(GetBigintFromString(dec));
+	} catch (err:any) {
+		resu.liste_prems = ["0"];
+		resu.coeffs_prems = [1];
+		return resu;
+	}
 
 	if (liste) {
 		const compteurs: number[] = [];
@@ -82,8 +94,8 @@ export const analyse_decomposition: (dec: Decomposition) => ResuDecomp = (
 		resu.coeffs_prems = compteurs;
 		resu.liste_prems = liste;
 	} else {
-		resu.liste_prems = ['0'],
-		resu.coeffs_prems = [1]
+		resu.liste_prems = ['0'];
+		resu.coeffs_prems = [1];
 	}
 	return resu;
 };
