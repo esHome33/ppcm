@@ -18,7 +18,8 @@ const About = (_props: Props) => {
 				className="text-justify"
 			>
 				Cette application permet de décomposer un et/ou deux nombres en
-				produits de facteurs premiers. Elle est codée en TypeScript (JavaScript typé).
+				produits de facteurs premiers. Elle est codée en TypeScript
+				(JavaScript typé).
 			</Typography>
 			<br />
 			<Typography
@@ -50,22 +51,22 @@ const About = (_props: Props) => {
 					crible d'Eratosthène
 				</span>
 				, le temps mis pour décomposer des nombres comportant plus de 9
-				chiffres devient excessivement long (même si le JavaScript tourne
-				sur le serveur maintenant !!).
+				chiffres devient excessivement long. Vous pouvez choisir d'exécuter
+				cet algorithm au niveau du client (votre ordi, tablette ou téléphone
+				!) ou alors sur le serveur qui sert cette page web. Attention, le
+				serveur web étant gratuit, il ne calcule que durant 10 secondes max
+				: cela empêche la décomposition des nombres de plus de 13 chiffres.
 			</Typography>
 			<br />
 			<Typography
 				variant="body1"
 				className="text-justify"
 			>
-				Le code de l'algorithme d'Eratosthène peut être exécuté au niveau du
-				client (votre ordi, tablette ou téléphone !) ou alors sur le serveur
-				qui sert cette page web. Malheureusement, le service web étant
-				gratuit, le serveur limite à 10 secondes le temps d'exécution des
-				fonctions ... cela empêche la décomposition des nombres de plus de 8
-				chiffres. Pour améliorer encore la vitesse, il faut arriver à
-				comprendre l'algorithme de Pollard-Strassen (Pomerance 1982; Hardy
-				et al. 1990) ... et l'implémenter.
+				Pour améliorer encore la vitesse, il faut arriver à comprendre
+				l'algorithme de Pollard-Strassen (Pomerance 1982; Hardy et al. 1990)
+				... et l'implémenter. Mais de toutes façons, on n'arrivera pas à
+				casser les codes de Cartes Bleues en travaillant séquentiellement !
+				Peut être que les algos quantiques le permettront ?
 			</Typography>
 			<br />
 			<hr />

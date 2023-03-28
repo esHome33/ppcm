@@ -1,14 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import decompose, { Decomposition, DecParams } from "../../utils/decompose";
+import decompose, {
+	Decomposition,
+	DecParams,
+	EuclideResponse,
+} from "../../utils/decompose";
 
 export type Data = {
-	dec_n1: Decomposition;
-	dec_n2: Decomposition;
+	dec_n1: { dec: Decomposition; nb: string };
+	dec_n2: { dec: Decomposition; nb: string };
 };
 
 const errorData: Data = {
-	dec_n1: ["Rien"],
-	dec_n2: ["Rien"],
+	dec_n1: {
+		dec: ["Rien"],
+		nb: "0",
+	},
+	dec_n2: {
+		dec: ["Rien"],
+		nb: "0",
+	},
 };
 
 export default function eratos(
@@ -23,14 +33,14 @@ export default function eratos(
 		try {
 			n1 = BigInt(req.body.n1);
 		} catch (error) {
-			errorData.dec_n1 = ["Erreur lors conversion nombre 1"];
+			errorData.dec_n1.dec = ["Erreur lors conversion nombre 1"];
 			res.status(501).json(errorData);
 			return;
 		}
 		try {
 			n2 = BigInt(req.body.n2);
 		} catch (error) {
-			errorData.dec_n2 = ["Erreur lors conversion nombre 2"];
+			errorData.dec_n2.dec = ["Erreur lors conversion nombre 2"];
 			res.status(501).json(errorData);
 			return;
 		}
@@ -41,21 +51,39 @@ export default function eratos(
 			nb2: n2,
 		};
 
-		let resultat_dec: Decomposition[];
+		let resultat_dec: EuclideResponse[];
 		try {
 			resultat_dec = decompose(p);
 		} catch (error) {
-			resultat_dec = [["catch1"], ["catch2"]];
+			const resp1 = {
+				dec: ["error catched on server"],
+				nb: 0n,
+			};
+			const resp2 = {
+				dec: ["error catched on server"],
+				nb: 0n,
+			};
+			resultat_dec = [resp1, resp2];
 		}
 
 		const OKData: Data = {
-			dec_n1: resultat_dec[0],
-			dec_n2: resultat_dec[1],
+			dec_n1: {
+				dec: resultat_dec[0].dec,
+				nb: resultat_dec[0].nb.toString(),
+			},
+			dec_n2: {
+				dec: resultat_dec[1].dec,
+				nb: resultat_dec[1].nb.toString(),
+			},
 		};
 		res.status(200).json(OKData);
 	} else {
-		errorData.dec_n1 = ["Protocole " + meth + " non accepté par le serveur"];
-		errorData.dec_n2 = ["Protocole " + meth + " non accepté par le serveur"];
+		errorData.dec_n1.dec = [
+			"Protocole " + meth + " non accepté par le serveur",
+		];
+		errorData.dec_n2.dec = [
+			"Protocole " + meth + " non accepté par le serveur",
+		];
 		res.status(501).json(errorData);
 	}
 }

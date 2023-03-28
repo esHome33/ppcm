@@ -1,3 +1,5 @@
+import sqrt from "./sqrtbigint";
+
 export type DecParams = {
 	nb1: bigint;
 	nb2: bigint;
@@ -84,13 +86,29 @@ export type Decomposition = string[];
 	return dec;
 };*/
 
+export type EuclideResponse = {
+	dec: Decomposition;
+	nb: bigint;
+};
 
-const euclide = (nb: bigint) => {
+export const EmptyEuclideResponse: EuclideResponse = {
+	dec: [""],
+	nb: 0n
+}
+
+const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 	let dec: Decomposition = [];
-	const moitie = nb / 2n;
+	let dec_b: bigint[] = [1n];
 	let div = nb;
 
-	for (let index = 2n; index < moitie + 1n; index = index + 1n) {
+	if (nb === 0n) {
+		return { dec: ["0"], nb: 0n };
+	}
+	if (nb === 1n) {
+		return { dec: ["1"], nb: 1n };
+	}
+
+	for (let index: bigint = 2n; index <= sqrt(nb); index = index + 1n) {
 		if (index > 3n) {
 			if (index % 2n === 0n) {
 				// sauter les multiples de deux
@@ -100,12 +118,22 @@ const euclide = (nb: bigint) => {
 				// sauter les multiples de 3
 				continue;
 			}
+			if (index > 5n && index % 5n === 0n) {
+				// sauter les multiples de 5
+				continue;
+			}
+			if (index > 7n && index % 7n === 0n) {
+				// sauter les multiples de 7
+				continue;
+			}
+
 			// diviser par index et compter le nombre de fois qu'on peut le faire.
 			let div_tmp = div;
 			let rest = div_tmp % index;
 			let division_faite = false;
 			const facteur = index.toString();
 			while (rest === 0n) {
+				dec_b.push(index);
 				dec.push(facteur);
 				div_tmp = div_tmp / index;
 				division_faite = true;
@@ -116,10 +144,12 @@ const euclide = (nb: bigint) => {
 				// et on continue avec l'index suivant et avec une valeur plus petite dans div.
 			} // et sinon, on passe à l'index suivant mais toujours avec la même valeur de div.
 		} else if (index === 2n) {
+			/// cas de 2
 			let div_tmp = div;
 			let rest = div_tmp % index;
 			let division_faite = false;
 			while (rest === 0n) {
+				dec_b.push(2n);
 				dec.push("2");
 				div_tmp = div_tmp / index;
 				division_faite = true;
@@ -135,6 +165,7 @@ const euclide = (nb: bigint) => {
 			let rest = div_tmp % index;
 			let division_faite = false;
 			while (rest === 0n) {
+				dec_b.push(3n);
 				dec.push("3");
 				div_tmp = div_tmp / index;
 				division_faite = true;
@@ -147,6 +178,31 @@ const euclide = (nb: bigint) => {
 		}
 	}
 
+	// check du produit des facteurs et du nombre à décomposer
+	let prod: bigint = 1n;
+	for (const p of dec_b) {
+		prod = prod * p;
+	}
+	let resu_b = prod;
+	if (prod !== nb) {
+		const manquant = nb / prod;
+		// test de primalité de ce manquant
+		for (let ii = 2n; ii <= sqrt(manquant); ii = ii + 1n) {
+			if (manquant % ii === 0n) {
+				throw new Error(
+					"L'algo n'a pas trouvé une décomposition de " +
+						nb +
+						" manquant = " +
+						manquant
+				);
+			}
+		}
+		resu_b = resu_b * manquant;
+		dec.push(manquant.toString());
+		//dec_b.push(manquant);
+	}
+
+	// et on traite le cas où on est tombé sur 0 ou sur un nombre premier
 	if (dec.length === 0) {
 		if (nb === 0n) {
 			dec.push(nb.toString());
@@ -154,13 +210,25 @@ const euclide = (nb: bigint) => {
 			dec.push(nb.toString() + " (nb premier)");
 		}
 	}
-	return dec;
-}; 
+	return { dec: dec, nb: resu_b };
+};
 
-const decompose = (params: DecParams) => {
-	const resu1: Decomposition = euclide((params.nb1));
-	const resu2: Decomposition = euclide((params.nb2));
-	const resu: Decomposition[] = [];
+const decompose: (params: DecParams) => EuclideResponse[] = (
+	params: DecParams
+) => {
+	let resu1: EuclideResponse;
+	let resu2: EuclideResponse;
+	try {
+		resu1 = euclide(params.nb1);
+	} catch (error: any) {
+		resu1 = { dec: [error.message], nb: params.nb1 };
+	}
+	try {
+		resu2 = euclide(params.nb2);
+	} catch (error: any) {
+		resu2 = { dec: [error.message], nb: params.nb2 };
+	}
+	let resu: EuclideResponse[] = [];
 	resu.push(resu1);
 	resu.push(resu2);
 	return resu;
