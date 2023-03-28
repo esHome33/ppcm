@@ -335,16 +335,24 @@ const Decomposeur = (props: Props) => {
 											d1[0] !== "1" &&
 											d1[0] !== "0"
 										) {
-											msg1 = dec1.nb.toString();
-											cpt++;
+											if (0n === dec1.nb) {
+												msg1 = "";
+											} else {
+												msg1 = dec1.nb.toString();
+												cpt++;
+											}
 										}
 										if (
 											d2.length === 1 &&
 											d2[0] !== "1" &&
 											d2[0] !== "0"
 										) {
-											msg2 += dec2.nb.toString();
-											cpt++;
+											if (0n === dec2.nb) {
+												msg2 = "";
+											} else {
+												msg2 = dec2.nb.toString();
+												cpt++;
+											}
 										}
 										if (msg1.length > 0 || msg2.length > 0) {
 											if (cpt === 1) {
@@ -368,7 +376,7 @@ const Decomposeur = (props: Props) => {
 										} else {
 											toast.success(
 												"Vos nombres ne sont pas des nombres premiers ! PGCD et le PPCM à venir ...",
-												{duration:1900}
+												{ duration: 1900 }
 											);
 										}
 									}}
