@@ -39,7 +39,7 @@ const IndexPage: NextPage = () => {
 					}}
 				/>
 			</Box>
-			<Decomposeur action={local} />
+			<Decomposeur local={local} />
 			<div className="mb-14" />
 		</Layout>
 	);

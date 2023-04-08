@@ -158,7 +158,7 @@ export function AddToPrimesList(
 	if (!liste) {
 		const nv_list: string[] = [];
 		new_p.forEach((elt) => {
-			if (!nv_list.includes(elt) && elt !== "0" && elt !== "1") {
+			if (!nv_list.includes(elt) && elt !== "0" && elt !== "1" && !elt.includes('a')) {
 				nv_list.push(elt);
 			}
 		});

@@ -6,18 +6,20 @@ import decompose, {
 } from "../../utils/decompose";
 
 export type Data = {
-	dec_n1: { dec: Decomposition; nb: string };
-	dec_n2: { dec: Decomposition; nb: string };
+	dec_n1: { dec: Decomposition; nb: string; isError: boolean };
+	dec_n2: { dec: Decomposition; nb: string; isError: boolean };
 };
 
 const errorData: Data = {
 	dec_n1: {
 		dec: ["Rien"],
 		nb: "0",
+		isError: true,
 	},
 	dec_n2: {
 		dec: ["Rien"],
 		nb: "0",
+		isError: true,
 	},
 };
 
@@ -34,6 +36,7 @@ export default function eratos(
 			n1 = BigInt(req.body.n1);
 		} catch (error) {
 			errorData.dec_n1.dec = ["Erreur lors conversion nombre 1"];
+			errorData.dec_n1.nb = req.body.n1;
 			res.status(501).json(errorData);
 			return;
 		}
@@ -41,6 +44,7 @@ export default function eratos(
 			n2 = BigInt(req.body.n2);
 		} catch (error) {
 			errorData.dec_n2.dec = ["Erreur lors conversion nombre 2"];
+			errorData.dec_n1.nb = req.body.n2;
 			res.status(501).json(errorData);
 			return;
 		}
@@ -56,12 +60,14 @@ export default function eratos(
 			resultat_dec = decompose(p);
 		} catch (error) {
 			const resp1 = {
-				dec: ["error catched on server"],
-				nb: 0n,
+				dec: ["decompose nb1 server error : " + JSON.stringify(error)],
+				nb: p.nb1,
+				isError: true,
 			};
 			const resp2 = {
-				dec: ["error catched on server"],
-				nb: 0n,
+				dec: ["decompose nb2 server error : " + JSON.stringify(error)],
+				nb: p.nb2,
+				isError: true,
 			};
 			resultat_dec = [resp1, resp2];
 		}
@@ -70,10 +76,12 @@ export default function eratos(
 			dec_n1: {
 				dec: resultat_dec[0].dec,
 				nb: resultat_dec[0].nb.toString(),
+				isError: resultat_dec[0].isError,
 			},
 			dec_n2: {
 				dec: resultat_dec[1].dec,
 				nb: resultat_dec[1].nb.toString(),
+				isError: resultat_dec[1].isError,
 			},
 		};
 		res.status(200).json(OKData);

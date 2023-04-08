@@ -26,7 +26,8 @@ const About = (_props: Props) => {
 				variant="body1"
 				className="text-justify"
 			>
-				Du coup, on peut aussi facilement trouver les PPCM et PGCD !
+				Du coup, on peut aussi facilement trouver les{" "}
+				<span className="text-blue-800 font-bold">PPCM et PGCD</span> !
 			</Typography>
 			<br />
 			<Typography
@@ -63,11 +64,24 @@ const About = (_props: Props) => {
 				variant="body1"
 				className="text-justify"
 			>
-				Pour améliorer encore la vitesse, il faut arriver à comprendre
-				l'algorithme de Pollard-Strassen (Pomerance 1982; Hardy et al. 1990)
-				... et l'implémenter. Mais de toutes façons, on n'arrivera pas à
-				casser les codes de Cartes Bleues en travaillant séquentiellement !
-				Peut être que les algos quantiques le permettront ?
+				<span className="text-blue-800 font-bold">Petit cadeau</span> : je
+				sauvegarde tous les nombres premiers que vous trouvez à l'occasion
+				des décompositions que vous effectuez. Vous les trouverez dans le
+				panneau "Appli" de l'outil de développement (affichage avec
+				Ctrl+Maj+I)
+			</Typography>
+			<br />
+			<Typography
+				variant="body1"
+				className="text-justify"
+			>
+				Pour améliorer encore la{" "}
+				<span className="text-blue-800 font-bold">vitesse</span>, il faut
+				arriver à comprendre l'algorithme de Pollard-Strassen (Pomerance
+				1982; Hardy et al. 1990) ... et l'implémenter. Mais de toutes
+				façons, on n'arrivera pas à casser les codes de Cartes Bleues en
+				travaillant séquentiellement ! Peut être que les algos quantiques le
+				permettront ?
 			</Typography>
 			<br />
 			<hr />

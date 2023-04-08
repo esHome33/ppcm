@@ -89,12 +89,14 @@ export type Decomposition = string[];
 export type EuclideResponse = {
 	dec: Decomposition;
 	nb: bigint;
+	isError: boolean;
 };
 
 export const EmptyEuclideResponse: EuclideResponse = {
 	dec: [""],
-	nb: 0n
-}
+	nb: 0n,
+	isError: true,
+};
 
 const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 	let dec: Decomposition = [];
@@ -102,13 +104,14 @@ const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 	let div = nb;
 
 	if (nb === 0n) {
-		return { dec: ["0"], nb: 0n };
+		return { dec: ["0"], nb: 0n, isError: false };
 	}
 	if (nb === 1n) {
-		return { dec: ["1"], nb: 1n };
+		return { dec: ["1"], nb: 1n, isError: false };
 	}
 
-	for (let index: bigint = 2n; index <= sqrt(nb); index = index + 1n) {
+	const max = sqrt(nb);
+	for (let index: bigint = 2n; index <= max; index = index + 1n) {
 		if (index > 3n) {
 			if (index % 2n === 0n) {
 				// sauter les multiples de deux
@@ -124,6 +127,14 @@ const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 			}
 			if (index > 7n && index % 7n === 0n) {
 				// sauter les multiples de 7
+				continue;
+			}
+			if (index > 11n && index % 11n === 0n) {
+				// sauter les multiples de 11
+				continue;
+			}
+			if (index > 13n && index % 13n === 0n) {
+				// sauter les multiples de 13
 				continue;
 			}
 
@@ -143,6 +154,11 @@ const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 				div = div_tmp;
 				// et on continue avec l'index suivant et avec une valeur plus petite dans div.
 			} // et sinon, on passe à l'index suivant mais toujours avec la même valeur de div.
+
+			/// un petit coup de log tout les 1000 tours !!
+			if (index % 1000n === 0n) {
+				console.log("et 1000 de plus : " + index);
+			}
 		} else if (index === 2n) {
 			/// cas de 2
 			let div_tmp = div;
@@ -210,7 +226,7 @@ const euclide: (nb: bigint) => EuclideResponse = (nb: bigint) => {
 			dec.push(nb.toString() + " (nb premier)");
 		}
 	}
-	return { dec: dec, nb: resu_b };
+	return { dec: dec, nb: resu_b, isError: false };
 };
 
 const decompose: (params: DecParams) => EuclideResponse[] = (
@@ -221,12 +237,12 @@ const decompose: (params: DecParams) => EuclideResponse[] = (
 	try {
 		resu1 = euclide(params.nb1);
 	} catch (error: any) {
-		resu1 = { dec: [error.message], nb: params.nb1 };
+		resu1 = { dec: [error.message], nb: params.nb1, isError: true };
 	}
 	try {
 		resu2 = euclide(params.nb2);
 	} catch (error: any) {
-		resu2 = { dec: [error.message], nb: params.nb2 };
+		resu2 = { dec: [error.message], nb: params.nb2, isError: true };
 	}
 	let resu: EuclideResponse[] = [];
 	resu.push(resu1);

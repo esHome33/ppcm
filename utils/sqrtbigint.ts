@@ -1,29 +1,37 @@
-const sqrt = (value:bigint)=>{
+/// from https://github.com/Aisse-258/bigint-isqrt
+
+/// using PR proposed in https://github.com/Yaffle/bigint-isqrt
+
+var bitLength = function (value:bigint) {
+	return BigInt(value.toString(16).length * 4);
+};
+
+
+
+var sqrt: (value: bigint) => bigint = (value) => {
 	if (value < 2n) {
 		return value;
 	}
 
 	if (value < 16n) {
-		return BigInt(Math.sqrt(Number(value)) | 0);
+		return BigInt(Math.floor(Math.sqrt(Number(value))));
 	}
 
-	let x0, x1;
+	// 4503599627370496n = 1n << 52n
 	if (value < 4503599627370496n) {
-		//1n<<52n
-		x1 = BigInt(Math.sqrt(Number(value)) | 0) - 3n;
-	} else {
-		let vlen = value.toString().length;
-		if (!(vlen & 1)) {
-			x1 = 10n ** BigInt(vlen / 2);
-		} else {
-			x1 = 4n * 10n ** BigInt((vlen / 2) | 0);
-		}
+		return BigInt(Math.floor(Math.sqrt(Number(value) + 0.5)));
 	}
 
-	do {
+	let e = bitLength(value);
+	let quarter = (e + 2n) / 4n;
+	let half = quarter * 2n;
+	let x1 = (sqrt(value >> half) + 1n) << quarter;
+
+	let x0 = -1n;
+	while (x0 !== x1 && x0 !== x1 - 1n) {
 		x0 = x1;
 		x1 = (value / x0 + x0) >> 1n;
-	} while (x0 !== x1 && x0 !== x1 - 1n);
+	}
 	return x0;
 };
 

@@ -22,7 +22,7 @@ import { PrimeKey, AddToPrimesList } from "../utils/localst";
 import ResuCard from "./ResuCard";
 
 type Props = {
-	action: boolean;
+	local: boolean;
 };
 
 const Decomposeur = (props: Props) => {
@@ -123,8 +123,14 @@ const Decomposeur = (props: Props) => {
 		});
 		prom
 			.then((res) => {
-				const l1 = AddToPrimesList(res[0].dec, primes);
-				const l2 = AddToPrimesList(res[1].dec, l1);
+				let l1: string[] | null = [];
+				let l2: string[] | null = [];
+				if (!res[0].isError) {
+					l1 = AddToPrimesList(res[0].dec, primes);
+				}
+				if (!res[1].isError) {
+					l2 = AddToPrimesList(res[1].dec, l1);
+				}
 				setPrimes(l2);
 				setdec1(res[0]);
 				setdec2(res[1]);
@@ -136,8 +142,12 @@ const Decomposeur = (props: Props) => {
 				setbtnDisable(false);
 			})
 			.catch((err) => {
-				setdec1({ dec: ["Erreur calcul", JSON.stringify(err)], nb: 0n });
-				setdec2({ dec: ["//"], nb: 0n });
+				setdec1({
+					dec: ["Erreur calcul", JSON.stringify(err)],
+					nb: 0n,
+					isError: true,
+				});
+				setdec2({ dec: ["//"], nb: 0n, isError: true });
 				const DA = new Date();
 				const ecart = DA.getTime() - DD.getTime() - 290;
 				setDuree_calcul(formateMS(ecart));
@@ -179,8 +189,16 @@ const Decomposeur = (props: Props) => {
 				const d1 = response.data.dec_n1;
 				const d2 = response.data.dec_n2;
 				const t_arrivee = new Date();
-				const d1_ok: EuclideResponse = { dec: d1.dec, nb: BigInt(d1.nb) };
-				const d2_ok: EuclideResponse = { dec: d2.dec, nb: BigInt(d2.nb) };
+				const d1_ok: EuclideResponse = {
+					dec: d1.dec,
+					nb: BigInt(d1.nb),
+					isError: false,
+				};
+				const d2_ok: EuclideResponse = {
+					dec: d2.dec,
+					nb: BigInt(d2.nb),
+					isError: false,
+				};
 				const diff = t_arrivee.getTime() - t_depart.getTime();
 				setDuree_calcul(formateMS(diff));
 				setAttenteVisible(false);
@@ -196,14 +214,27 @@ const Decomposeur = (props: Props) => {
 						setdec1({
 							dec: ["Le temps de calcul max est dépassé (10s)"],
 							nb: 0n,
+							isError: true,
 						});
-						setdec2({ dec: ["Le service est gratuit"], nb: 0n });
+						setdec2({
+							dec: ["Le service est gratuit"],
+							nb: 0n,
+							isError: true,
+						});
 					} else {
-						setdec1({ dec: [err.name, err.message], nb: 0n });
-						setdec2({ dec: [""], nb: 0n });
+						setdec1({
+							dec: [err.name, err.message],
+							nb: 0n,
+							isError: true,
+						});
+						setdec2({ dec: [""], nb: 0n, isError: true });
 					}
 				} else {
-					setdec1({ dec: ["Erreur au niveau du serveur !"], nb: 0n });
+					setdec1({
+						dec: ["Erreur au niveau du serveur !"],
+						nb: 0n,
+						isError: true,
+					});
 				}
 				setAttenteVisible(false);
 				setResVisible(true);
@@ -221,20 +252,20 @@ const Decomposeur = (props: Props) => {
 		nbre,
 		numero
 	) => {
-		if (nbre.length > 30) {
-			return "Les nombres de plus de 30 chiffres ne sont pas traités.";
+		if (nbre.length > 34) {
+			return "Les nombres de plus de 34 chiffres ne sont pas traités.";
 		}
 		if (numero === 1) {
 			try {
 				chg_nb1(nbre);
 			} catch (error: any) {
-				return "Il faut un nombre (moins de 30 chiffres).";
+				return "Il faut un nombre (moins de 35 chiffres).";
 			}
 		} else if (numero === 2) {
 			try {
 				chg_nb2(nbre);
 			} catch (error: any) {
-				return "Il faut un nombre (moins de 30 chiffres).";
+				return "Il faut un nombre (moins de 35 chiffres).";
 			}
 		}
 		if (nbre.length > 16) {
@@ -287,14 +318,14 @@ const Decomposeur = (props: Props) => {
 							fullWidth
 							disabled={btnDisabled}
 							onClick={() => {
-								if (props.action) {
+								if (props.local) {
 									goCalc2();
 								} else {
 									goCalc();
 								}
 							}}
 						>
-							{props.action ? "Go (serveur)" : "Go (en local)"}
+							{props.local ? "Go (serveur)" : "Go (en local)"}
 						</Button>
 					</ListItem>
 					{attenteVisible ? (
