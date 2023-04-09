@@ -252,6 +252,7 @@ const Decomposeur = (props: Props) => {
 		nbre,
 		numero
 	) => {
+		nbre = nbre.split(' ').join('');
 		if (nbre.length > 34) {
 			return "Les nombres de plus de 34 chiffres ne sont pas traités.";
 		}
@@ -259,13 +260,13 @@ const Decomposeur = (props: Props) => {
 			try {
 				chg_nb1(nbre);
 			} catch (error: any) {
-				return "Il faut un nombre (moins de 35 chiffres).";
+				return "Il faut un nombre sans caractères et de moins de 35 chiffres.";
 			}
 		} else if (numero === 2) {
 			try {
 				chg_nb2(nbre);
 			} catch (error: any) {
-				return "Il faut un nombre (moins de 35 chiffres).";
+				return "Il faut un nombre sans caractères et de moins de 35 chiffres.";
 			}
 		}
 		if (nbre.length > 16) {
@@ -293,6 +294,7 @@ const Decomposeur = (props: Props) => {
 									});
 								}
 							}}
+							value={val_nb1.toString()}
 						/>
 					</ListItem>
 					<ListItem>
@@ -309,6 +311,7 @@ const Decomposeur = (props: Props) => {
 									});
 								}
 							}}
+							value={val_nb2.toString()}
 						/>
 					</ListItem>
 					<ListItem>
@@ -350,7 +353,7 @@ const Decomposeur = (props: Props) => {
 									duree={duree_calcul}
 								/>
 							</ListItem>
-							<ListItem>
+							<ListItem className="flex text-center">
 								<Button
 									className="mx-auto px-4 bg-slate-500 text-white hover:bg-blue-300 hover:text-blue-900"
 									onClick={() => {
