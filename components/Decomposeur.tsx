@@ -375,8 +375,12 @@ const Decomposeur = (props: Props) => {
 									duree={duree_calcul}
 								/>
 							</ListItem>
-							<ListItem className="flex flex-auto text-center justify-center">
+							<ListItem
+								alignItems="center"
+								className="flex flex-auto text-center justify-center"
+							>
 								<Button
+									sx={{ marginX: "2px" }}
 									variant="contained"
 									className="flex mx-2 bg-blue-800 text-white hover:bg-blue-300 hover:text-orange-900"
 									onClick={() => {
@@ -441,6 +445,7 @@ const Decomposeur = (props: Props) => {
 									Analyse
 								</Button>
 								<Button
+									sx={{ marginX: "2px" }}
 									variant="contained"
 									className="flex mx-2 bg-blue-800 text-white hover:bg-blue-300 hover:text-orange-900"
 									onClick={() => {
