@@ -101,13 +101,14 @@ const Decomposeur = (props: Props) => {
 		}
 	};
 
-	let DD: Date;
 	//setPrimes(storePrimes([3n, 7n, 9n], ""));
 
 	/**
 	 * décomposition exécutée sur le client (utilise les promesses mais bloque quand même l'ui).
 	 */
 	const decomposer = () => {
+		let DD: Date;
+		DD = new Date();
 		let p: DecParams = {
 			nb1: BigInt(val_nb1),
 			nb2: BigInt(val_nb2),
@@ -135,7 +136,7 @@ const Decomposeur = (props: Props) => {
 				setdec1(res[0]);
 				setdec2(res[1]);
 				const DA = new Date();
-				const ecart = DA.getTime() - DD.getTime() - 290;
+				const ecart = DA.getTime() - DD.getTime();
 				setDuree_calcul(formateMS(ecart));
 				setAttenteVisible(false);
 				setResVisible(true);
@@ -149,7 +150,7 @@ const Decomposeur = (props: Props) => {
 				});
 				setdec2({ dec: ["//"], nb: 0n, isError: true });
 				const DA = new Date();
-				const ecart = DA.getTime() - DD.getTime() - 290;
+				const ecart = DA.getTime() - DD.getTime();
 				setDuree_calcul(formateMS(ecart));
 				setAttenteVisible(false);
 				setResVisible(true);
@@ -164,21 +165,18 @@ const Decomposeur = (props: Props) => {
 		setbtnDisable(true);
 		setAttenteVisible(true);
 		setResVisible(false);
-		DD = new Date();
+
 		// lancer la décomposition après un court (300ms) délai d'attente afin que l'affichage
 		// se remette à jour.
 		setTimeout(() => {
 			decomposer();
-		}, 300);
+		}, 400);
 	};
 
 	/**
-	 * fonction de décomposition localisée sur le serveur
+	 * decomposition lancée sur le serveur
 	 */
-	const goCalc2 = () => {
-		setAttenteVisible(true);
-		setResVisible(false);
-		setbtnDisable(true);
+	const runOnServer = () => {
 		const t_depart = new Date();
 		axios
 			.post<Data>("api/eratos", {
@@ -188,17 +186,29 @@ const Decomposeur = (props: Props) => {
 			.then((response) => {
 				const d1 = response.data.dec_n1;
 				const d2 = response.data.dec_n2;
-				const t_arrivee = new Date();
 				const d1_ok: EuclideResponse = {
 					dec: d1.dec,
 					nb: BigInt(d1.nb),
-					isError: false,
+					isError: d1.isError,
 				};
 				const d2_ok: EuclideResponse = {
 					dec: d2.dec,
 					nb: BigInt(d2.nb),
-					isError: false,
+					isError: d2.isError,
 				};
+				// store the new primes in local storage
+				let l1: string[] | null = [];
+				let l2: string[] | null = [];
+				if (!d1_ok.isError) {
+					l1 = AddToPrimesList(d1_ok.dec, primes);
+				}
+				if (!d2_ok.isError) {
+					l2 = AddToPrimesList(d2_ok.dec, l1);
+				}
+				// store the new prime list
+				setPrimes(l2);
+				// determine the total compute time used.
+				const t_arrivee = new Date();
 				const diff = t_arrivee.getTime() - t_depart.getTime();
 				setDuree_calcul(formateMS(diff));
 				setAttenteVisible(false);
@@ -243,6 +253,18 @@ const Decomposeur = (props: Props) => {
 	};
 
 	/**
+	 * fonction de décomposition localisée sur le serveur
+	 */
+	const goCalc2 = () => {
+		setAttenteVisible(true);
+		setResVisible(false);
+		setbtnDisable(true);
+		setTimeout(() => {
+			runOnServer();
+		}, 400);
+	};
+
+	/**
 	 * Vérifie la saisie utilisateur, stocke la valeur et renvoie un message qui sera transmis à l'utilisateur
 	 * par un toast.
 	 * @param nbre le nombre saisi par l'utilisateur
@@ -252,7 +274,7 @@ const Decomposeur = (props: Props) => {
 		nbre,
 		numero
 	) => {
-		nbre = nbre.split(' ').join('');
+		nbre = nbre.split(" ").join("");
 		if (nbre.length > 34) {
 			return "Les nombres de plus de 34 chiffres ne sont pas traités.";
 		}
@@ -353,9 +375,10 @@ const Decomposeur = (props: Props) => {
 									duree={duree_calcul}
 								/>
 							</ListItem>
-							<ListItem className="flex text-center">
+							<ListItem className="flex flex-auto text-center justify-center">
 								<Button
-									className="mx-auto px-4 bg-slate-500 text-white hover:bg-blue-300 hover:text-blue-900"
+									variant="contained"
+									className="flex mx-2 bg-blue-800 text-white hover:bg-blue-300 hover:text-orange-900"
 									onClick={() => {
 										let msg = "";
 										let msg1 = "";
@@ -418,7 +441,8 @@ const Decomposeur = (props: Props) => {
 									Analyse
 								</Button>
 								<Button
-									className="mx-auto px-4 bg-slate-500 text-white hover:bg-blue-300 hover:text-blue-900"
+									variant="contained"
+									className="flex mx-2 bg-blue-800 text-white hover:bg-blue-300 hover:text-orange-900"
 									onClick={() => {
 										window.scrollTo({ top: 0, behavior: "smooth" });
 									}}

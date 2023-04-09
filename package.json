@@ -1,6 +1,6 @@
 {
 	"name": "factorize_app",
-	"version": "1.4.7",
+	"version": "1.4.8",
 	"author": "Etienne Schwartz",
 	"description": "Factor your integers as prime products with Euclid's algorithm. Factorisez sous forme de produits de nombre premiers vos nombres entiers avec l'algorithme d'Euclide.",
 	"scripts": {
