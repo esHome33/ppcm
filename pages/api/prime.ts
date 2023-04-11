@@ -32,20 +32,22 @@ const getFileName = (nb: bigint) => {
 		return "ERR";
 	}
 
-	if (nb < 1000n) {
+	if (nb <= 1000n) {
 		return "primes-0-1000-.json";
-	} else if (nb < 2000n) {
+	} else if (nb <= 3000n) {
 		return "primes-1000-3000-.json";
-	} else if (nb < 5000n) {
+	} else if (nb <= 5000n) {
 		return "primes-3000-5000-.json";
-	} else if (nb < 8000n) {
+	} else if (nb <= 8000n) {
 		return "primes-5000-8000-.json";
-	} else if (nb < 11000n) {
+	} else if (nb <= 11000n) {
 		return "primes-8000-11000-.json";
-	} else if (nb < 15000n) {
+	} else if (nb <= 15000n) {
 		return "primes-11000-15000-.json";
-	} else {
+	} else if (nb <= 20000n) {
 		return "primes-15000-20000-.json";
+	} else {
+		return "primes-20000-30000-.json";
 	}
 };
 

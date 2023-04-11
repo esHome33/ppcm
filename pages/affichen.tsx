@@ -30,7 +30,14 @@ const Affichen = () => {
 				title="Afficher un nombre premier"
 				about_invisible
 			>
-				<Container className="flex flex-col max-w-sm">
+				<Container
+					className="flex flex-col max-w-sm"
+					sx={{
+						display: "flex",
+						flexDirection: "column",
+						maxWidth: "70%",
+					}}
+				>
 					<TextField
 						variant="outlined"
 						label="numéro du nombre premier cherché"
