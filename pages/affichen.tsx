@@ -35,7 +35,6 @@ const Affichen = () => {
 						display: "flex",
 						flexDirection: "column",
 						width: "80%",
-						maxWidth: "50%",
 					}}
 				>
 					<TextField
