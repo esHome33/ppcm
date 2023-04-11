@@ -31,17 +31,17 @@ const Affichen = () => {
 				about_invisible
 			>
 				<Container
-					className="flex flex-col max-w-sm"
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						maxWidth: "70%",
+						widht: "50%",
+						maxWidth: "50%",
 					}}
 				>
 					<TextField
 						variant="outlined"
 						label="numéro du nombre premier cherché"
-						sx={{ height: "100%" }}
+						sx={{ height: "100%", maxWidth: "50%" }}
 						onChange={(e) => {
 							e.preventDefault();
 							const val = e.target.value;
@@ -57,7 +57,7 @@ const Affichen = () => {
 					<Button
 						variant="contained"
 						className="bg-blue-700 text-white"
-						sx={{ height: "100%", maxHeight: "100%", marginTop: "5px" }}
+						sx={{ maxWidth: "50%", marginTop: "8px" }}
 						onClick={(e) => {
 							e.preventDefault();
 							if (val > 0) {
@@ -68,16 +68,19 @@ const Affichen = () => {
 						Cherche
 					</Button>
 				</Container>
+				<br />
 				<Typography className="mt-4">
 					Je cherche le {val}° nombre premier :
 				</Typography>
 				<br />
-				<Typography>
-					C'est{" "}
-					<span className="font-extrabold text-lg text-blue-800">
-						{prem}
-					</span>
-				</Typography>
+				{prem === "" ? null : (
+					<Typography>
+						C'est{" "}
+						<span className="font-extrabold text-lg text-blue-800">
+							{prem}
+						</span>
+					</Typography>
+				)}
 			</Layout>
 		</>
 	);

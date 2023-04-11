@@ -78,7 +78,9 @@ const Layout = ({
 		</Container>
 
 		<footer className="text-center mt-2 bg-slate-200 p-2 rounded text-sm fixed bottom-0 right-0 left-0">
-			<span>&copy; ESHome33 - Aquitaine - France - 23-28 mars 2023</span>
+			<span>
+				&copy; ESHome33 - Aquitaine - France - 23 mars-11 avril 2023
+			</span>
 		</footer>
 	</div>
 );
