@@ -34,14 +34,14 @@ const Affichen = () => {
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						widht: "50%",
+						width: "80%",
 						maxWidth: "50%",
 					}}
 				>
 					<TextField
 						variant="outlined"
 						label="numéro du nombre premier cherché"
-						sx={{ height: "100%", maxWidth: "50%" }}
+						sx={{ height: "100%", maxWidth: "80%" }}
 						onChange={(e) => {
 							e.preventDefault();
 							const val = e.target.value;
@@ -57,7 +57,7 @@ const Affichen = () => {
 					<Button
 						variant="contained"
 						className="bg-blue-700 text-white"
-						sx={{ maxWidth: "50%", marginTop: "8px" }}
+						sx={{ maxWidth: "80%", marginTop: "8px" }}
 						onClick={(e) => {
 							e.preventDefault();
 							if (val > 0) {
