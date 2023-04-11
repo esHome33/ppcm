@@ -54,6 +54,13 @@ const Layout = ({
 						</div>
 					)}
 					{!about_invisible && (
+						<Link href="/affichen">
+							<a className="hover:bg-slate-200 px-2 py-1 rounded-lg border-2">
+								Recherche
+							</a>
+						</Link>
+					)}
+					{!about_invisible && (
 						<Link href="/about">
 							<a className="hover:bg-slate-200 px-2 py-1 rounded-lg border-2">
 								A propos
