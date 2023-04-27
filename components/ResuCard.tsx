@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import React from "react";
 import { Decomposition } from "../utils/decompose";
-import { affiche_analyse, analyse_decomposition } from "../utils/localst";
+import { affiche_analyse, analyse_decomposition } from "../lib/resudecomp";
 
 type Props = {
 	nombre1: bigint | number;

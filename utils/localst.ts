@@ -1,25 +1,4 @@
-import { Decomposition } from "./decompose";
-
 export const PrimeKey = "primes";
-
-/**
- * Compte le nombre d'occurences d'une valeur dans la liste de valeurs.
- * @param liste la liste contenant différentes valeurs, y compris en plusieurs exemplaires.
- * @param valeur la valeur à trouver
- * @returns le nombre de fois que cette valeur a été trouvée dans la liste (0 ou nombre de fois)
- */
-const CompteValeur: (liste: string[], valeur: string) => number = (
-	liste,
-	valeur
-) => {
-	let cpt: number = 0;
-	for (const elt of liste) {
-		if (elt === valeur) {
-			cpt++;
-		}
-	}
-	return cpt;
-};
 
 /**
  * Gets a list of BigInt from a list of string ... eliminates doubles
@@ -50,72 +29,6 @@ export const GetBigintFromString: (str: string[] | null) => bigint[] = (
 	}
 	nb_premiers.sort((a, b) => Number(a - b));
 	return nb_premiers;
-};
-
-/**
- * type de l'analyse d'une décomposition : une liste de premiers
- * et leurs coefficients de puissance associés.
- */
-export type ResuDecomp = {
-	liste_prems: string[];
-	coeffs_prems: number[];
-};
-
-/**
- * Analyse la décomposition : à partir d'une liste de premiers,
- * compte le nombre de fois que chaque premier apparait.
- * @param dec la décomposition à analyser
- * @returns les nombres premiers et leurs coefficients associés
- * @author Etienne Schwartz
- */
-export const analyse_decomposition: (dec: Decomposition) => ResuDecomp = (
-	dec: Decomposition
-) => {
-	const resu: ResuDecomp = {
-		liste_prems: [],
-		coeffs_prems: [],
-	};
-	// on passe la décomposition par ces deux fonctions (deux boucles inutiles!!) pour oter les doublons...
-	let liste: string[] | null = [];
-	try {
-		liste = GetStringFromBigint(GetBigintFromString(dec));
-	} catch (err:any) {
-		resu.liste_prems = ["0"];
-		resu.coeffs_prems = [1];
-		return resu;
-	}
-
-	if (liste) {
-		const compteurs: number[] = [];
-		for (const bi of liste) {
-			const nb = CompteValeur(dec, bi);
-			compteurs.push(nb);
-		}
-		resu.coeffs_prems = compteurs;
-		resu.liste_prems = liste;
-	} else {
-		resu.liste_prems = ['0'];
-		resu.coeffs_prems = [1];
-	}
-	return resu;
-};
-
-export const affiche_analyse: (ana: ResuDecomp) => string = (
-	ana: ResuDecomp
-) => {
-	let resu = "";
-	for (let i = 0; i < ana.liste_prems.length; i++) {
-		const puiss = ana.coeffs_prems[i];
-		if (puiss === 1) {
-			resu += ana.liste_prems[i] + " * ";
-		} else {
-			resu += ana.liste_prems[i] + "^" + puiss + " * ";
-		}
-	}
-	if (resu.length > 3) {
-		resu = resu.slice(0, resu.length - 3);
-	}
-	return resu;
 };
 
 /**
@@ -158,7 +71,12 @@ export function AddToPrimesList(
 	if (!liste) {
 		const nv_list: string[] = [];
 		new_p.forEach((elt) => {
-			if (!nv_list.includes(elt) && elt !== "0" && elt !== "1" && !elt.includes('a')) {
+			if (
+				!nv_list.includes(elt) &&
+				elt !== "0" &&
+				elt !== "1" &&
+				!elt.includes("a")
+			) {
 				nv_list.push(elt);
 			}
 		});

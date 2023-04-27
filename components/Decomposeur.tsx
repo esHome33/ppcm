@@ -20,6 +20,7 @@ import decompose, {
 } from "../utils/decompose";
 import { PrimeKey, AddToPrimesList } from "../utils/localst";
 import ResuCard from "./ResuCard";
+import { useRouter } from "next/router";
 
 type Props = {
 	local: boolean;
@@ -47,6 +48,8 @@ const Decomposeur = (props: Props) => {
 			window.scrollTo({ top: 0, behavior: "smooth" });
 		}
 	}, [resVisible]);
+
+	const router = useRouter();
 
 	const chg_nb1 = (val: string) => {
 		setResVisible(false);
@@ -439,6 +442,47 @@ const Decomposeur = (props: Props) => {
 												"Vos nombres ne sont pas des nombres premiers ! PGCD et le PPCM à venir ...",
 												{ duration: 1900 }
 											);
+										}
+										let chaine_query1: string = "";
+										for (const elt of dec1.dec) {
+											chaine_query1 += elt + ",";
+										}
+										let chaine_query2: string = "";
+										for (const elt of dec2.dec) {
+											chaine_query2 += elt + ",";
+										}
+										chaine_query1 = chaine_query1.slice(
+											0,
+											chaine_query1.length - 1
+										);
+										chaine_query2 = chaine_query2.slice(
+											0,
+											chaine_query2.length - 1
+										);
+										chaine_query1 += "";
+										chaine_query2 += "";
+
+										let query_string: string = "";
+										if (chaine_query1 === "0") {
+											if (chaine_query2 === "0") {
+												// ne rien faire
+											} else {
+												// n'envoyer que la chaine 2
+												query_string += "dec2=" + chaine_query2;
+												router.push("/analyse?" + query_string);
+											}
+										} else {
+											if (chaine_query2 === "0") {
+												query_string += "dec1=" + chaine_query1;
+												router.push("/analyse?" + query_string);
+											} else {
+												query_string +=
+													"dec1=" +
+													chaine_query1 +
+													"&dec2=" +
+													chaine_query2;
+												router.push("/analyse?" + query_string);
+											}
 										}
 									}}
 								>
