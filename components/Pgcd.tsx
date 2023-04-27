@@ -44,7 +44,7 @@ const PGCD = (props: Props) => {
 				<Typography>
 					{n1} = {aff1}
 				</Typography>
-				<Typography>
+				<Typography className="mb-2">
 					{n2} = {aff2}
 				</Typography>
 				<Typography className="bg-slate-500 text-white font-bold p-2 rounded-lg">

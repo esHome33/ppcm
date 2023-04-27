@@ -50,14 +50,14 @@ const Nombre = (props: Props) => {
 			<Typography
 				variant="body1"
 				className="mx-auto"
-				sx={{ marginY: "5px" }}
+				sx={{ marginBottom: "10px" }}
 			>
 				{numero} = {val}
 			</Typography>
 			<Typography
-				className="mx-auto"
+				className="mx-auto mb-2"
 				variant="body1"
-				sx={{ marginY: "5px" }}
+				sx={{ marginBottom: "10px" }}
 			>
 				{aff_dec}
 			</Typography>
