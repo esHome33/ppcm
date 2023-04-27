@@ -33,7 +33,10 @@ const PGCD = (props: Props) => {
 	};
 
 	return (
-		<Card className="flex flex-col flex-grow p-2 m-2 bg-orange-100 max-w-screen-sm justify-center align-middle">
+		<Card
+			sx={{ backgroundColor: "#ffedd5", textAlign: "center" }}
+			className="flex flex-col flex-grow p-2 m-2 bg-orange-100 max-w-screen-sm justify-center align-middle"
+		>
 			<CardContent>
 				<Typography className="bg-orange-300 rounded-lg text-center p-2 font-bold">
 					PGCD - GCF

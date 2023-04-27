@@ -23,7 +23,10 @@ const PPCM = (props: Props) => {
 	const val_ppcm = valeur_analyse(le_ppcm);
 	
 	return (
-		<Card className="flex flex-col p-2 m-2 bg-green-100 max-w-screen-sm justify-center align-middle flex-grow">
+		<Card
+			sx={{ backgroundColor: "#dcfce7", textAlign:'center' }}
+			className="flex flex-col p-2 m-2 bg-green-100 max-w-screen-sm justify-center align-middle flex-grow"
+		>
 			<CardContent>
 				<Typography className="bg-green-300 rounded-lg text-center p-2 font-bold">
 					PPCM - LCM
@@ -36,8 +39,9 @@ const PPCM = (props: Props) => {
 				</Typography>
 				<Typography className="bg-slate-500 text-white font-bold p-2 rounded-lg">
 					PPCM =
-					{isMonofacteur(le_ppcm) ? " " + aff_ppcm : " " + aff_ppcm + " = " + val_ppcm}
-					
+					{isMonofacteur(le_ppcm)
+						? " " + aff_ppcm
+						: " " + aff_ppcm + " = " + val_ppcm}
 				</Typography>
 			</CardContent>
 		</Card>

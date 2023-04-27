@@ -43,7 +43,10 @@ const Nombre = (props: Props) => {
 	const numero = "N" + props.cle;
 
 	return (
-		<Card className="flex flex-col p-4 m-2 bg-slate-200 max-w-screen-md justify-center align-middle flex-grow">
+		<Card
+			sx={{ backgroundColor: "#e2e8f0", textAlign: "center" }}
+			className="flex flex-col p-4 m-2 bg-slate-200 max-w-screen-md justify-center align-middle flex-grow"
+		>
 			<Typography
 				variant="body1"
 				className="mx-auto"
