@@ -114,6 +114,13 @@ const About = (_props: Props) => {
 				>
 					NextJS
 				</a>
+				- code source :
+				<a
+					href={"https://github.com/esHome33/ppcm"}
+					className="text-blue-800"
+				>
+					https://github.com/esHome33/ppcm
+				</a>
 			</Typography>
 			<div className="mb-14" />
 		</Layout>
