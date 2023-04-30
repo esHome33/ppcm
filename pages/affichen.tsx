@@ -31,16 +31,23 @@ const Affichen = () => {
 				about_invisible
 			>
 				<Container
+					className="container mx-auto"
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						width: "80%",
+						width: "90%",
+						justifyContent: "center",
+						textJustify: "auto",
 					}}
 				>
+					<Typography className="mt-4 text-center w-11/12">
+						Indiquez le numéro d'ordre du nombre premier que vous
+						souhaitez voir afficher (max : 30001 pour le moment).
+					</Typography>
 					<TextField
 						variant="outlined"
 						label="numéro du nombre premier cherché"
-						sx={{ height: "100%", maxWidth: "80%" }}
+						sx={{ height: "100%", maxWidth: "90%", marginTop: "15px" }}
 						onChange={(e) => {
 							e.preventDefault();
 							const val = e.target.value;
@@ -56,7 +63,7 @@ const Affichen = () => {
 					<Button
 						variant="contained"
 						className="bg-blue-700 text-white"
-						sx={{ maxWidth: "80%", marginTop: "8px" }}
+						sx={{ maxWidth: "90%", marginTop: "8px" }}
 						onClick={(e) => {
 							e.preventDefault();
 							if (val > 0) {
@@ -75,7 +82,7 @@ const Affichen = () => {
 				{prem === "" ? null : (
 					<Typography>
 						C'est{" "}
-						<span className="font-extrabold text-lg text-blue-800">
+						<span className="font-extrabold text-xl text-blue-800">
 							{prem}
 						</span>
 					</Typography>

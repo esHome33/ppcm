@@ -32,6 +32,34 @@ const ResuCard = (props: Props) => {
 		}
 	};
 
+	const produit_contenu = (
+		v1: number | bigint,
+		v2: Decomposition,
+		v3: string,
+		position: 1 | 2
+	) => {
+		if (v1 === 0n) {
+			return (
+				<Typography
+					width={"100%"}
+					variant="body2"
+					fontStyle={"italic"}
+				>
+					Nombre {position} non indiqué
+				</Typography>
+			);
+		} else {
+			return (
+				<Typography width={"100%"}>
+					{v1.toString()}
+					<br /> {" = " + affiche_decomp(v2)}
+					<br /> {" = " + affiche_analyse(analyse_decomposition(v2))}
+					<br /> {" = " + v3}
+				</Typography>
+			);
+		}
+	};
+
 	return (
 		<Card
 			className="bg-orange-50 w-full"
@@ -43,21 +71,9 @@ const ResuCard = (props: Props) => {
 				title={"Résultat :"}
 			/>
 			<CardContent>
-				<Typography width={"100%"}>
-					{val_nb1.toString()}
-					<br /> {" = " + affiche_decomp(dec1)}
-					<br /> {" = " + affiche_analyse(analyse_decomposition(dec1))}
-					<br /> {" = " + props.decomp1_nb}
-				</Typography>
-				<Typography>
-					<br></br>
-				</Typography>
-				<Typography width={"100%"}>
-					{val_nb2.toString()}
-					<br /> {" = " + affiche_decomp(dec2)}
-					<br /> {" = " + affiche_analyse(analyse_decomposition(dec2))}
-					<br /> {" = " + props.decomp2_nb}
-				</Typography>
+				{produit_contenu(val_nb1, dec1, props.decomp1_nb, 1)}
+				<br></br>
+				{produit_contenu(val_nb2, dec2, props.decomp2_nb, 2)}
 				<br />
 				<Typography variant="body2">
 					{props.duree

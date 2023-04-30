@@ -319,7 +319,7 @@ const Decomposeur = (props: Props) => {
 									});
 								}
 							}}
-							value={val_nb1.toString()}
+							value={val_nb1 === 0n ? "" : val_nb1.toString()}
 						/>
 					</ListItem>
 					<ListItem>
@@ -336,7 +336,7 @@ const Decomposeur = (props: Props) => {
 									});
 								}
 							}}
-							value={val_nb2.toString()}
+							value={val_nb2 === 0n ? "" : val_nb2.toString()}
 						/>
 					</ListItem>
 					<ListItem>
