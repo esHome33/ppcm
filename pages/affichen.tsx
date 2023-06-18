@@ -43,12 +43,12 @@ const Affichen = () => {
 				about_invisible
 			>
 				<Container
-					className="container mx-auto"
 					sx={{
 						display: "flex",
 						flexDirection: "column",
-						width: "90%",
+						width: "100%",
 						justifyContent: "center",
+						marginX: "auto",
 						textJustify: "auto",
 					}}
 				>
@@ -92,13 +92,8 @@ const Affichen = () => {
 
 				{affdetail ? (
 					<Container
-						className="container mx-auto"
 						sx={{
-							display: "flex",
-							flexDirection: "column",
-							width: "90%",
-							justifyContent: "center",
-							textJustify: "auto",
+							maxWidth:"70%"
 						}}
 					>
 						{val === 0 ? (
@@ -107,39 +102,40 @@ const Affichen = () => {
 									entrez l&apos;index du premier cherché
 								</Typography>
 							</>
-						) :
-							(erreur) ? null :
-							
-								<Typography className="mt-4" sx={{marginX:'auto'}}>
-									{val <= 9 ? (
-										<>
-											Voici les {val} nombres précédant le {val}°
-											nombre premier
-										</>
-									) : (
-										<>
-											Voici les 10 nombres précédant le {val}°
-											nombre premier
-										</>
-									)}
-								</Typography>
-							}
-							
+						) : erreur ? null : (
+							<Typography
+								
+									sx={{
+										marginX: "auto",
+										marginTop:"2px"
+									}}
+							>
+								{val <= 9 ? (
+									<>
+										Voici les {val} nombres précédant le {val}° nombre
+										premier
+									</>
+								) : (
+									<>
+										Voici les 10 nombres précédant le {val}° nombre
+										premier
+									</>
+								)}
+							</Typography>
+						)}
+
 						<br />
 
 						<List
 							sx={{
-								backgroundColor: "#EFF",
-								maxWidth: "70%",
+								backgroundColor: "#E8F0FE",
 								borderRadius: "13px",
-								borderWidth: "10px",
-								borderColor: '#DDDDFF',
-								color: '#057',
-								display: 'flex',
-								flexDirection: 'column',
-								marginX: 'auto',
-								paddingX:'5px',
-								minWidth:'30%'
+								borderWidth: "5px",
+								borderColor: "#2871DB",
+								color: "#2828FF",
+							
+								maxWidth: "90%",
+								minWidth: "30%",
 							}}
 							disablePadding
 						>
@@ -160,18 +156,21 @@ const Affichen = () => {
 										</ListItem>
 									);
 								} else {
-
 									return (
 										<ListItem
-										key={index}
-										sx={{
-											lineHeight: "10px",
-										}}
+											key={index}
+											sx={{
+												lineHeight: "10px",
+												marginX: "auto",
+											}}
 										>
-											{index + val - ecart + "e :  " + premier}
+											<span className="text-xs  italic mr-2">
+												{index + val - ecart + "e :"}{" "}
+											</span>{" "}
+											<span className="font-bold">{premier}</span>
 										</ListItem>
-								);
-							}
+									);
+								}
 							})}
 						</List>
 					</Container>
