@@ -10,6 +10,13 @@ const IndexPage: NextPage = () => {
 	const txt_serveur = "exécuter sur le serveur";
 	const txt_local = "exécuter en local";
 	const [texteLieu, setTexteLieu] = useState<string>(txt_serveur);
+	const [disabled, setDisabled] = useState(false);
+
+	const toggle = () => {
+		setDisabled((action) => {
+			return !action;
+		});
+	};
 
 	return (
 		<Layout
@@ -22,24 +29,31 @@ const IndexPage: NextPage = () => {
 				className="text-center font-bold text-teal-800"
 			>
 				{" "}
-				♻️ ♻️ Décomposition en facteurs premiers 👋
+				♻️ ♻️ Décomposition en facteurs premiers 👋😉
 			</Typography>
 			<br />
-			<Box textAlign={"center"}>
+			<Box
+				textAlign={"center"}
+				visibility={disabled ? "collapse" : "visible"}
+			>
 				<FormControlLabel
 					control={<Switch defaultChecked />}
 					label={texteLieu}
 					onChange={() => {
 						if (local) {
 							setTexteLieu(txt_local);
+							setLocal(false);
 						} else {
 							setTexteLieu(txt_serveur);
+							setLocal(true);
 						}
-						setLocal(!local);
 					}}
 				/>
 			</Box>
-			<Decomposeur local={local} />
+			<Decomposeur
+				local={local}
+				disable_function={toggle}
+			/>
 			<div className="mb-14" />
 		</Layout>
 	);

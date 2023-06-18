@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 
 type Props = {
 	local: boolean;
+	disable_function: () => void;
 };
 
 const Decomposeur = (props: Props) => {
@@ -109,9 +110,10 @@ const Decomposeur = (props: Props) => {
 	/**
 	 * décomposition exécutée sur le client (utilise les promesses mais bloque quand même l'ui).
 	 */
-	const decomposer = () => {
+	const runLocally = () => {
 		let DD: Date;
 		DD = new Date();
+		
 		let p: DecParams = {
 			nb1: BigInt(val_nb1),
 			nb2: BigInt(val_nb2),
@@ -125,6 +127,7 @@ const Decomposeur = (props: Props) => {
 				reject(error);
 			}
 		});
+
 		prom
 			.then((res) => {
 				let l1: string[] | null = [];
@@ -144,6 +147,7 @@ const Decomposeur = (props: Props) => {
 				setAttenteVisible(false);
 				setResVisible(true);
 				setbtnDisable(false);
+				props.disable_function();
 			})
 			.catch((err) => {
 				setdec1({
@@ -158,6 +162,7 @@ const Decomposeur = (props: Props) => {
 				setAttenteVisible(false);
 				setResVisible(true);
 				setbtnDisable(false);
+				props.disable_function();
 			});
 	};
 
@@ -168,11 +173,12 @@ const Decomposeur = (props: Props) => {
 		setbtnDisable(true);
 		setAttenteVisible(true);
 		setResVisible(false);
+		props.disable_function();
 
 		// lancer la décomposition après un court (300ms) délai d'attente afin que l'affichage
 		// se remette à jour.
 		setTimeout(() => {
-			decomposer();
+			runLocally();
 		}, 400);
 	};
 
@@ -213,14 +219,22 @@ const Decomposeur = (props: Props) => {
 				// determine the total compute time used.
 				const t_arrivee = new Date();
 				const diff = t_arrivee.getTime() - t_depart.getTime();
-				setDuree_calcul(formateMS(diff));
+				setDuree_calcul(
+					"tot=" +
+						formateMS(diff) +
+						" dont " +
+						formateMS(response.data.duree) +
+						" sur serveur"
+				);
 				setAttenteVisible(false);
 				setResVisible(true);
 				setbtnDisable(false);
 				setdec1(d1_ok);
 				setdec2(d2_ok);
+				props.disable_function();
 			})
 			.catch((err) => {
+				
 				if (axios.isAxiosError(err)) {
 					const msg = err.message;
 					if (msg.includes("504")) {
@@ -252,6 +266,7 @@ const Decomposeur = (props: Props) => {
 				setAttenteVisible(false);
 				setResVisible(true);
 				setbtnDisable(false);
+				props.disable_function();
 			});
 	};
 
@@ -259,6 +274,7 @@ const Decomposeur = (props: Props) => {
 	 * fonction de décomposition localisée sur le serveur
 	 */
 	const goCalc2 = () => {
+		props.disable_function();
 		setAttenteVisible(true);
 		setResVisible(false);
 		setbtnDisable(true);

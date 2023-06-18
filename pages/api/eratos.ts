@@ -8,6 +8,7 @@ import decompose, {
 export type Data = {
 	dec_n1: { dec: Decomposition; nb: string; isError: boolean };
 	dec_n2: { dec: Decomposition; nb: string; isError: boolean };
+	duree: number;
 };
 
 const errorData: Data = {
@@ -21,6 +22,7 @@ const errorData: Data = {
 		nb: "0",
 		isError: true,
 	},
+	duree: 0,
 };
 
 export default function eratos(
@@ -29,6 +31,8 @@ export default function eratos(
 ) {
 	const meth = req.method;
 	if (meth === "POST") {
+		// top départ *****************************************
+		const DStart = new Date();
 		// get the two numbers
 		let n1: bigint = 0n;
 		let n2: bigint = 0n;
@@ -56,6 +60,7 @@ export default function eratos(
 		};
 
 		let resultat_dec: EuclideResponse[];
+		// décomposer
 		try {
 			resultat_dec = decompose(p);
 		} catch (error) {
@@ -71,7 +76,12 @@ export default function eratos(
 			};
 			resultat_dec = [resp1, resp2];
 		}
-
+		// top fin des calculs *****************************************
+		const DEnd = new Date();
+		let duree_calcul = DEnd.getMilliseconds() - DStart.getMilliseconds();
+		if (duree_calcul < 0) {
+			duree_calcul = 0;
+		}
 		const OKData: Data = {
 			dec_n1: {
 				dec: resultat_dec[0].dec,
@@ -83,6 +93,7 @@ export default function eratos(
 				nb: resultat_dec[1].nb.toString(),
 				isError: resultat_dec[1].isError,
 			},
+			duree: duree_calcul,
 		};
 		res.status(200).json(OKData);
 	} else {
