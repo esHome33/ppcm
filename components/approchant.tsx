@@ -25,7 +25,9 @@ const Approchant = (props: Props) => {
 		}
 	}, []);
 
-	const chercheNb =  async (nombre: number) => {
+	const chercheNb = async (nombre: number) => {
+		setAffdetail(false);
+		
 		const resp = await axios
 			.post<ApproxData>("/api/approx", {
 				nombre: nombre,
@@ -60,11 +62,14 @@ const Approchant = (props: Props) => {
 					]
 				)
 			});
+			setAffdetail(true);
+
 		} else {
 			setErreur(true);
 			setPrem(() => {
 				return ["erreur", "//", "erreur", "//"];
 			})
+			setAffdetail(true);
 		}
 	};
 
@@ -146,7 +151,6 @@ const Approchant = (props: Props) => {
 							}
 							if (val > 0) {
 								chercheNb(val);
-								setAffdetail(true);
 							}
 						}}
 						disabled={val === 0 || val === ""}
