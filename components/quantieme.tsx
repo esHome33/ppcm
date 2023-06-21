@@ -17,7 +17,7 @@ type Props = {
 
 const Quantieme = (props: Props) => {
 	const param = props.nombre;
-	const [val, setVal] = useState<number|"">("");
+	const [val, setVal] = useState<number | "">("");
 	const [prem, setPrem] = useState([""]);
 	const [affdetail, setAffdetail] = useState(false);
 	const [erreur, setErreur] = useState(false);
@@ -30,7 +30,7 @@ const Quantieme = (props: Props) => {
 				setVal(Number(param));
 			}
 		}
-	},[]);
+	}, []);
 
 	const chercheNb = (nb: number) => {
 		axios
@@ -44,13 +44,14 @@ const Quantieme = (props: Props) => {
 					setErreur(false);
 					setPrem(resp.data.premiers);
 				}
+				setAffdetail(true);
 			})
 			.catch((err: { message: string }) => {
 				setErreur(true);
 				setPrem([err.message]);
+				setAffdetail(true);
 			});
 	};
-
 
 	return (
 		<>
@@ -94,7 +95,6 @@ const Quantieme = (props: Props) => {
 						}
 						if (val > 0) {
 							chercheNb(val);
-							setAffdetail(true);
 						}
 					}}
 					disabled={val === 0 || val === ""}
