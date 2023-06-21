@@ -183,10 +183,10 @@ export default async function prime(
 					// il y a moins de 9 nombres premiers qui précèdent notre nombre recherché
 					tmp_index = i;
 					// et on cherchera 9-i nombres dans le fichier précédent à partir du dernier nombre premier.
-					otherPrimes = await getLastPrimes(
-						getPrecedentFilename(filename),
-						9 - i
-					);
+					const prec_filename = getPrecedentFilename(filename);
+					if (prec_filename !== "ERR") {
+						otherPrimes = await getLastPrimes(prec_filename, 9 - i);
+					}
 				}
 				while (tmp_index >= 0) {
 					const tmp_nb = d[i - tmp_index].nb;
