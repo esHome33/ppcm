@@ -81,9 +81,11 @@ const About = (_props: Props) => {
 				<span className="text-blue-800 font-bold">
 					rechercher un nombre premier par son rang
 				</span>
-				. Cette appli peut trouver jusqu'au 30000 ème nombre premier. Je
-				génère les listes avec un programme en C qui utilise le crible
-				d'Atkins (qui carbure) !
+				. Cette appli peut trouver jusqu'au 400000 ème nombre premier. Je
+				génère les listes avec un programme en C++ qui utilise le crible
+				d'Atkins (très rapide) ! A compter du 21 juin 2023, vous pouvez
+				également trouver les nombres premiers qui encadrent un nombre
+				entier donné ({"<"}400000).
 			</Typography>
 			<br />
 			<Typography

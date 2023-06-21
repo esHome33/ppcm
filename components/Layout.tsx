@@ -37,6 +37,7 @@ const Layout = ({
 				content="Prime Factorization Algorithm. Factor your integers as prime products with Euclid's algorithm. 
 				Factorisez sous forme de produits de nombre premiers vos nombres entiers avec l'algorithme d'Euclide."
 			></meta>
+
 			<link
 				rel="icon"
 				type="image/x-icon"
@@ -78,7 +79,7 @@ const Layout = ({
 		</Container>
 
 		<footer className="text-center mt-2 bg-slate-200 p-2 rounded text-sm fixed bottom-0 right-0 left-0">
-			<span>&copy; ESHome33.fr - 23 mars / 18 juin 2023</span>
+			<span>&copy; ESHome33.fr - 23 mars / 21 juin 2023</span>
 		</footer>
 	</div>
 );

@@ -31,36 +31,117 @@ const getNombre = (queryString: string | string[] | undefined) => {
 	}
 };
 
+/**
+ * Retrouve le nom de fichier qui contient les nombres premiers qui encadrent
+ * le nombre fourni en paramètre
+ *
+ * @param nb un nombre quelconque
+ * @returns un nom de fichier JSON ou "ERR"
+ */
 const getFileName = (nb: bigint) => {
-	//console.log("traitement de " + nb.toString());
-	if (nb === -1n) {
+	if (nb === -1n || nb === 0n || nb > 400000n) {
 		return "ERR";
 	}
-	if (nb <= 1000n) {
-		return "primes-0-1000-.json";
-	} else if (nb <= 3000n) {
-		return "primes-1000-3000-.json";
-	} else if (nb <= 5000n) {
-		return "primes-3000-5000-.json";
-	} else if (nb <= 8000n) {
-		return "primes-5000-8000-.json";
-	} else if (nb <= 11000n) {
-		return "primes-8000-11000-.json";
-	} else if (nb <= 15000n) {
-		return "primes-11000-15000-.json";
-	} else if (nb <= 20000n) {
-		return "primes-15000-20000-.json";
-	} else if (nb <= 30000n) {
-		return "primes-20000-30000-.json";
-	} else if (nb <= 50000n) {
-		return "primes-30000-50000-.json";
-	} else if (nb <= 100000n) {
-		return "primes-50000-100000-.json";
+	if (nb <= 30000n) {
+		return "p-1-30000.json";
+	} else if (nb <= 60000n) {
+		return "p-30001-60000.json";
+	} else if (nb <= 90000n) {
+		return "p-60001-90000.json";
+	} else if (nb <= 120000n) {
+		return "p-90001-120000.json";
 	} else if (nb <= 150000n) {
-		return "primes-100000-150000-.json";
+		return "p-120001-150000.json";
+	} else if (nb <= 180000n) {
+		return "p-150001-180000.json";
+	} else if (nb <= 210000n) {
+		return "p-180001-210000.json";
+	} else if (nb <= 240000n) {
+		return "p-210001-240000.json";
+	} else if (nb <= 270000n) {
+		return "p-240001-270000.json";
+	} else if (nb <= 300000n) {
+		return "p-270001-300000.json";
+	} else if (nb <= 330000n) {
+		return "p-300001-330000.json";
+	} else if (nb <= 360000n) {
+		return "p-330001-360000.json";
+	} else if (nb <= 380000n) {
+		return "p-360001-380000.json";
 	} else {
-		return "primes-150000-200000-.json";
+		return "p-380001-400000.json";
 	}
+};
+
+/**
+ * Retrouve le fichier qui contient les nombres premiers inférieurs au plus petit premier contenu
+ * dans le fichier filename.
+ *
+ * @param filename nom d'un fichier json contenant les nombres premiers
+ * @returns le filename qui précède le filename indiqué
+ */
+const getPrecedentFilename = (filename: string) => {
+	const filenames = [
+		"p-1-30000.json",
+		"p-30001-60000.json",
+		"p-60001-90000.json",
+		"p-90001-120000.json",
+		"p-120001-150000.json",
+		"p-150001-180000.json",
+		"p-180001-210000.json",
+		"p-210001-240000.json",
+		"p-240001-270000.json",
+		"p-270001-300000.json",
+		"p-300001-330000.json",
+		"p-330001-360000.json",
+		"p-360001-380000.json",
+		"p-380001-400000.json",
+	];
+	const index_recherche = filenames.findIndex((val) => {
+		return val === filename;
+	});
+	if (index_recherche < 0) {
+		return "ERR";
+	} else {
+		if (index_recherche === 0) {
+			return "ERR";
+		} else {
+			return filenames[index_recherche - 1];
+		}
+	}
+};
+
+/**
+ * Lit un fichier JSON et fournit un tableau des données contenues dans ce fichier
+ * @param filename le nom du fichier JSON
+ * @returns un tableau des données contenues dans ce fichier
+ */
+const ouvreFichier = async (filename: string) => {
+	const jsonDirectory = path.join(process.cwd(), "json");
+	const fileContents = await fs.readFile(
+		jsonDirectory + "/" + filename,
+		"utf8"
+	);
+	const d: { index: number; nb: number }[] = JSON.parse(fileContents);
+	return d;
+};
+/**
+ * Extrait "quantité" de nombres premiers parmi les derniers
+ * nombres premiers d'un fichier JSON
+ *
+ * @param filename le nom du fichier JSON
+ * @param quantite la quantité de nombres premiers à extraire de ce fichier depuis la fin du fichier
+ * @returns un tableau contenant les nombres premiers extraits
+ * @author Etienne
+ */
+const getLastPrimes = async (filename: string, quantite: number) => {
+	const d = await ouvreFichier(filename);
+	const resu: string[] = [];
+	const taille = d.length - 1;
+	for (let i: number = quantite - 1; i >= 0; i--) {
+		resu.push(d[taille - i].nb + "");
+	}
+	return resu;
 };
 
 export default async function prime(
@@ -71,7 +152,6 @@ export default async function prime(
 		const nb_str = req.query.n;
 
 		let nb: bigint = getNombre(nb_str);
-		//console.log("Resultat pour nb = " + nb.toString());
 		let resu: Result = {
 			index: nb.toString(),
 			premiers: ["2"],
@@ -83,49 +163,43 @@ export default async function prime(
 			return;
 		}
 
-		const jsonDirectory = path.join(process.cwd(), "json");
 		const filename = getFileName(nb);
 		if (filename === "ERR") {
 			resu.premiers = ["2"];
 			resu.isError = true;
-			console.log("Filename = ERR");
 		} else {
-			//console.log("Filename = " + filename);
-			//Read the json data file data.json
-			const fileContents = await fs.readFile(
-				jsonDirectory + "/" + filename,
-				"utf8"
-			);
-			const d: { index: number; nb: number }[] = JSON.parse(fileContents);
-			/*			console.log(
-				"longueur du tableau lu JSON = " +
-					d.length +
-					" avec index = " +
-					(nb - 1n).toString()
-			); */
-
-			const index_souhaite = nb - 1n;
-
+			const d = await ouvreFichier(filename);
+			const index_souhaite = nb;
 			const i = d.findIndex((v) => {
 				return BigInt(v.index) === index_souhaite;
 			});
 
 			if (i > -1) {
-				//console.log("index trouvé = " + i);
+				// dans ce cas on a trouvé le nb ième nombre premier !
 				let resultats: string[] = [];
 				let tmp_index = 9;
+				let otherPrimes: string[] = [];
 				if (i < tmp_index) {
+					// il y a moins de 9 nombres premiers qui précèdent notre nombre recherché
 					tmp_index = i;
+					// et on cherchera 9-i nombres dans le fichier précédent à partir du dernier nombre premier.
+					otherPrimes = await getLastPrimes(
+						getPrecedentFilename(filename),
+						9 - i
+					);
 				}
 				while (tmp_index >= 0) {
 					const tmp_nb = d[i - tmp_index].nb;
 					resultats.push(tmp_nb.toString());
 					tmp_index--;
 				}
+				// le cas échéant, on insère les premiers du fichier précédent
+				if (otherPrimes.length > 0) {
+					resultats.unshift(...otherPrimes);
+				}
 				resu.premiers = resultats;
 				resu.isError = false;
 			} else {
-				//console.log("index non trouvé (" + i + ")");
 				resu.premiers = ["2"];
 				resu.isError = true;
 			}

@@ -1,0 +1,104 @@
+{
+	"files": [
+		{
+			"firstprime": "2",
+			"lastprime": "350377",
+			"name": "p-1-30000.json",
+			"firstpos": "1",
+			"lastpos": "30000"
+		},
+		{
+			"firstprime": "350381",
+			"lastprime": "746773",
+			"name": "p-30001-60000.json",
+			"firstpos": "30001",
+			"lastpos": "60000"
+		},
+		{
+			"firstprime": "746777",
+			"lastprime": "1159523",
+			"name": "p-60001-90000.json",
+			"firstpos": "60001",
+			"lastpos": "90000"
+		},
+		{
+			"firstprime": "1159531",
+			"lastprime": "1583539",
+			"name": "p-90001-120000.json",
+			"firstpos": "90001",
+			"lastpos": "120000"
+		},
+		{
+			"firstprime": "1583591",
+			"lastprime": "2015177",
+			"name": "p-120001-150000.json",
+			"firstpos": "120001",
+			"lastpos": "150000"
+		},
+		{
+			"firstprime": "2015179",
+			"lastprime": "2454587",
+			"name": "p-150001-180000.json",
+			"firstpos": "150001",
+			"lastpos": "180000"
+		},
+		{
+			"firstprime": "2454619",
+			"lastprime": "2898527",
+			"name": "p-180001-210000.json",
+			"firstpos": "180001",
+			"lastpos": "210000"
+		},
+		{
+			"firstprime": "2898541",
+			"lastprime": "3346601",
+			"name": "p-210001-240000.json",
+			"firstpos": "210001",
+			"lastpos": "240000"
+		},
+		{
+			"firstprime": "3346621",
+			"lastprime": "3800201",
+			"name": "p-240001-270000.json",
+			"firstpos": "240001",
+			"lastpos": "270000"
+		},
+		{
+			"firstprime": "3800213",
+			"lastprime": "4256233",
+			"name": "p-270001-300000.json",
+			"firstpos": "270001",
+			"lastpos": "300000"
+		},
+		{
+			"firstprime": "4256249",
+			"lastprime": "4716053",
+			"name": "p-300001-330000.json",
+			"firstpos": "300001",
+			"lastpos": "330000"
+		},
+		{
+			"firstprime": "4716083",
+			"lastprime": "5178049",
+			"name": "p-330001-360000.json",
+			"firstpos": "330001",
+			"lastpos": "360000"
+		},
+		{
+			"firstprime": "5178053",
+			"lastprime": "5487701",
+			"name": "p-360001-380000.json",
+			"firstpos": "360001",
+			"lastpos": "380000"
+		},
+		{
+			"firstprime": "5487707",
+			"lastprime": "5800079",
+			"name": "p-380001-400000.json",
+			"firstpos": "380001",
+			"lastpos": "400000"
+		}
+	],
+	"maxprime": "5800079",
+	"maxpos": "400000"
+}
