@@ -211,7 +211,6 @@ export default class Approximateur {
 		const nb_de_fichiers_json = this.myLimits.files.length;
 		let index_courant = 0; // pointeur mobile sur le fichier courant et le fichier suivant.
 
-		console.log("il y a " + nb_de_fichiers_json + " fichiers JSON");
 		while (index_courant < nb_de_fichiers_json - 1) {
 			const fic_courant = this.myLimits.files[index_courant];
 			const fic_suivant = this.myLimits.files[index_courant + 1];
@@ -224,13 +223,10 @@ export default class Approximateur {
 
 			// le cas où nb est < premier_premier
 			// ou le cas où nb === premier_premier est déjà traité avant cette boucle while
-			console.log(
-				"Boucle " + index_courant + " => fichier = " + fic_courant.name
-			);
+			
 			// => soit nb est strictement supérieur au premier premier du fichier courant
 			// et strictement inférieur au dernier premier du fichier courant
 			if (nb < dernier_premier) {
-				console.log("nb < dernier_premier");
 				if (nb >= fic_courant.firstprime) {
 					// on trouve les deux approchants dans ce fichier
 					const donnees: NombresPremiersLus = await this.datasInPrimeFile(
@@ -289,7 +285,6 @@ export default class Approximateur {
 			} else if (egalite_dernier_premier === 0) {
 				// nb égale au dernier premier du fichier courant : faut trouver l'avant dernier du fichier courant
 				// et le premier du fichier suivant
-				console.log("nb === dernier_premier");
 
 				const donnees_cour: NombresPremiersLus =
 					await this.datasInPrimeFile(fic_courant.name);
@@ -304,10 +299,8 @@ export default class Approximateur {
 			} else {
 				// le nombre est strictement supérieur au dernier premier du fichier courant
 				// dans ce cas, on voit sa situation par rapport au plus petit premier du fichier suivant
-				console.log("nb > dernier_premier");
 				if (nb < premier_premier_suiv) {
 					// le nombre est juste entre le dernier du fichier courant et le premier du fichier suivant
-					console.log("nb > dernier_premier et < au 1er prem suivant");
 
 					resu.nb_avant = dernier_premier;
 					resu.index_nb_avant = fic_courant.lastpos;
@@ -316,7 +309,6 @@ export default class Approximateur {
 					return resu;
 				} else if (egalite_prem_suivant === 0) {
 					// le suivant est le deuxième premier du fichier suivant
-					console.log("nb > dernier_premier et = au 1er prem suivant");
 					resu.nb_avant = dernier_premier;
 					resu.index_nb_avant = fic_courant.lastpos;
 					const datas_suiv = await this.datasInPrimeFile(fic_suivant.name);
@@ -328,18 +320,14 @@ export default class Approximateur {
 					// c'est la boucle suivante qui va traiter la recherche ... sauf
 					// sauf si le fichier courant est l'avant dernier fichier
 					// càd si index_courant === nb_de_fichiers_json - 2
-					console.log("nb > dernier_premier et > au 1er prem suivant");
 					if (index_courant === nb_de_fichiers_json - 2) {
 						// dans ce cas, on cherche dans le fichier suivant les deux nombres premiers
-						console.log("on est à l'avant dernier fichier");
 						const datas_suiv = await this.datasInPrimeFile(
 							fic_suivant.name
 						);
 						const dernier_p = datas_suiv[datas_suiv.length - 1].nb;
 						const diff = nb - dernier_p;
-						console.log(
-							"diff=" + diff + " et derier premier =" + dernier_p
-						);
+						
 						if (diff < 0) {
 							// nb < datas_suiv[datas_suiv.length - 1].nb
 							let idx = 0;
@@ -387,14 +375,11 @@ export default class Approximateur {
 							resu.index_nb_avant = fic_suivant.lastpos;
 							//return resu;
 						}
-						console.log("fin");
 					}
 				}
 			}
 			index_courant++;
-			console.log("incrémentation de l'index à " + index_courant);
 		}
-		console.log("sortie de l'approximateur " + JSON.stringify(resu));
 		return resu;
 	};
 
