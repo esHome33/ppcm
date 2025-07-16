@@ -1,5 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
+import process from "process";
 
 /**
  * les données contenues dans un fichier JSON contenant les nombres premiers et leur index
