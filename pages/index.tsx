@@ -2,7 +2,7 @@ import Layout from "../components/Layout";
 import { NextPage } from "next";
 import { Box, FormControlLabel, Switch, Typography } from "@mui/material";
 import Decomposeur from "../components/Decomposeur";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast/dist";
 import { useState } from "react";
 
 const IndexPage: NextPage = () => {
