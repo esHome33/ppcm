@@ -12,7 +12,7 @@ type Props = {
 
 const Layout = ({
 	children,
-	title = "Titre par défaut",
+	title = "PPCM et PGCD - prime factorization",
 	about_invisible = false,
 	home_invisible = false,
 }: Props) => (
