@@ -31,5 +31,6 @@
 		"tailwindcss": "^3.4.19",
 		"typescript": "^4.9.5"
 	},
-	"license": "GNU General Public License"
+	"license": "GNU General Public License",
+    "packageManager": "pnpm@10"
 }
